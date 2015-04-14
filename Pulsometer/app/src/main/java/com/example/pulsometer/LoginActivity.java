@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +26,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -217,6 +221,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
 
         addEmailsToAutoComplete(emails);
+        new HttpRequestTask().execute();
     }
 
     @Override
@@ -300,6 +305,30 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
         }
     }
+    private class HttpRequestTask extends AsyncTask<Void, Void, Greeting> {
+        @Override
+        protected Greeting doInBackground(Void... params) {
+            try {
+                final String url = "http://rest-pulsometer.rhcloud.com/PulsometerREST/greeting";
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                Greeting greeting = restTemplate.getForObject(url, Greeting.class);
+                return greeting;
+            } catch (Exception e) {
+                Log.e("MainActivity", e.getMessage(), e);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Greeting greeting) {
+            //TextView greetingIdText = (TextView) findViewById(R.id.email);
+            //greetingIdText.setText(greeting.getId());
+        }
+
+    }
+    //http://jbossas-pulsometer.rhcloud.com/
 }
 
 
