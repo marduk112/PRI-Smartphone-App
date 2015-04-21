@@ -6,7 +6,9 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -27,9 +29,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +104,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        final Context context = this;
+        Button button = (Button) findViewById(R.id.registerButton);
+        button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void populateAutoComplete() {
@@ -221,7 +247,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
 
         addEmailsToAutoComplete(emails);
-        new HttpRequestTask().execute();
+        //new HttpRequestTask().execute();
     }
 
     @Override
@@ -305,28 +331,43 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
         }
     }
-    private class HttpRequestTask extends AsyncTask<Void, Void, Greeting> {
+    private class HttpRequestTask extends AsyncTask<Void, Void, HttpResponse> {
         @Override
-        protected Greeting doInBackground(Void... params) {
+        protected HttpResponse doInBackground(Void... params) {
             try {
-                final String url = "http://rest-pulsometer.rhcloud.com/PulsometerREST/greeting";
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                Greeting greeting = restTemplate.getForObject(url, Greeting.class);
-                return greeting;
+                HttpClient client = new DefaultHttpClient();
+                String url = "http://pulsometerrest.apphb.com/api/Account/Register";
+                HttpPost post = new HttpPost(url);
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+                TextView resultIdText = (TextView) findViewById(R.id.email);
+                nameValuePairs.add(new BasicNameValuePair("Email", resultIdText.getText().toString()));
+                //nameValuePairs.add(new BasicNameValuePair("username", "3"));
+                nameValuePairs.add(new BasicNameValuePair("Password", "Abrakadabra_2"));
+                nameValuePairs.add(new BasicNameValuePair("ConfirmPassword", "Abrakadabra_2"));
+                post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                HttpResponse response = client.execute(post);
+                return response;
             } catch (Exception e) {
                 Log.e("MainActivity", e.getMessage(), e);
             }
-
             return null;
         }
 
         @Override
-        protected void onPostExecute(Greeting greeting) {
-            //TextView greetingIdText = (TextView) findViewById(R.id.email);
-            //greetingIdText.setText(greeting.getId());
+        protected void onPostExecute(HttpResponse result) {
+            try {
+                TextView resultIdText = (TextView) findViewById(R.id.email);
+                StatusLine entity = result.getStatusLine();
+                int in = entity.getStatusCode();
+                StringWriter writer = new StringWriter();
+                //IOUtils.copy(in, writer, "UTF-8");
+                Gson g = new Gson();
+                //Book book = g.fromJson(writer.toString(), Book.class);
+                resultIdText.setText("cos " + in);
+            }catch(Exception e){
+                Log.e("MainActivity2", e.getMessage(), e);
+            }
         }
-
     }
     //http://jbossas-pulsometer.rhcloud.com/
 }
