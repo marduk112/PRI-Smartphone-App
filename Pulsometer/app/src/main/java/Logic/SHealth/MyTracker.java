@@ -1,17 +1,10 @@
-package SHealth;
+package Logic.SHealth;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.util.Log;
 
-import com.google.android.gms.analytics.Tracker;
 import com.samsung.android.sdk.shealth.tracker.TrackerEventListener;
-import com.samsung.android.sdk.shealth.tracker.TrackerTile;
 import com.samsung.android.sdk.shealth.tracker.TrackerTileManager;
-
-import java.security.Timestamp;
 
 /**
  * Created by Szymon Wójcik on 2015-04-23.

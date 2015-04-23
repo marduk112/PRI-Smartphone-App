@@ -1,4 +1,4 @@
-package SHealth;
+package Logic.SHealth;
 
 import android.app.IntentService;
 import android.content.Context;
