@@ -23,7 +23,8 @@ public class PluginTrackerProvider extends Application {
             Log.d(LOG_TAG, "Samsung Digital Health Initialization failed. Error type : " + eType);
             if (eType == SsdkUnsupportedException.VENDOR_NOT_SUPPORTED) {
                 // It is thrown if the device does not support the S Health SDK.
-            } else if (eType == SsdkUnsupportedException.LIBRARY_NOT_INSTALLED) { // It is thrown if the library of the SDK is not found.
+            } else if (eType == SsdkUnsupportedException.LIBRARY_NOT_INSTALLED) {
+            // It is thrown if the library of the SDK is not found.
             }
         } catch (Exception e1) {
             Log.d(LOG_TAG, "Samsung Digital Health Initialization failed.");

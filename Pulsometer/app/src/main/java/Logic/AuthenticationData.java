@@ -8,5 +8,5 @@ import java.security.Timestamp;
 public class AuthenticationData {
     public String access_token;
     public String token_type;
-    public Timestamp expires_in;
+    public long expires_in;
 }

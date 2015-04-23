@@ -11,6 +11,8 @@ import com.samsung.android.sdk.shealth.tracker.TrackerEventListener;
 import com.samsung.android.sdk.shealth.tracker.TrackerTile;
 import com.samsung.android.sdk.shealth.tracker.TrackerTileManager;
 
+import java.security.Timestamp;
+
 /**
  * Created by Szymon Wójcik on 2015-04-23.
  */
