@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -48,6 +49,8 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import Logic.AuthenticationData;
 
 
 /**
@@ -247,7 +250,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
 
         addEmailsToAutoComplete(emails);
-        //new HttpRequestTask().execute();
     }
 
     @Override
@@ -336,14 +338,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected HttpResponse doInBackground(Void... params) {
             try {
                 HttpClient client = new DefaultHttpClient();
-                String url = "http://pulsometerrest.apphb.com/api/Account/Register";
+                String url = "http://pulsometerrest.apphb.com/api/Token";
                 HttpPost post = new HttpPost(url);
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 TextView resultIdText = (TextView) findViewById(R.id.email);
-                nameValuePairs.add(new BasicNameValuePair("Email", resultIdText.getText().toString()));
-                //nameValuePairs.add(new BasicNameValuePair("username", "3"));
-                nameValuePairs.add(new BasicNameValuePair("Password", "Abrakadabra_2"));
-                nameValuePairs.add(new BasicNameValuePair("ConfirmPassword", "Abrakadabra_2"));
+                nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
+                nameValuePairs.add(new BasicNameValuePair("username", mEmailView.getText().toString()));
+                nameValuePairs.add(new BasicNameValuePair("password", mPasswordView.getText().toString()));
                 post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
                 HttpResponse response = client.execute(post);
                 return response;
@@ -357,13 +358,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected void onPostExecute(HttpResponse result) {
             try {
                 TextView resultIdText = (TextView) findViewById(R.id.email);
-                StatusLine entity = result.getStatusLine();
-                int in = entity.getStatusCode();
+                HttpEntity entity = result.getEntity();
+                StatusLine status = result.getStatusLine();
+                InputStream in = entity.getContent();
                 StringWriter writer = new StringWriter();
-                //IOUtils.copy(in, writer, "UTF-8");
+                IOUtils.copy(in, writer, "UTF-8");
                 Gson g = new Gson();
-                //Book book = g.fromJson(writer.toString(), Book.class);
-                resultIdText.setText("cos " + in);
+                AuthenticationData auth = g.fromJson(writer.toString(), AuthenticationData.class);
+                resultIdText.setText(status.getStatusCode());
             }catch(Exception e){
                 Log.e("MainActivity2", e.getMessage(), e);
             }
