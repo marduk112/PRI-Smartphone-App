@@ -283,7 +283,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, HttpResponse> {
+    private class UserLoginTask extends AsyncTask<Void, Void, HttpResponse> {
 
         private final String mEmail;
         private final String mPassword;
@@ -302,12 +302,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 String url = "http://pulsometerrest.apphb.com/Token";
                 HttpPost post = new HttpPost(url);
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                TextView resultIdText = (TextView) findViewById(R.id.email);
                 nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
                 nameValuePairs.add(new BasicNameValuePair("username", mEmail));
                 nameValuePairs.add(new BasicNameValuePair("password", mPassword));
                 post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                //post.setHeader("Content-Type", "application/x-www-form-urlencoded");
                 HttpResponse response = client.execute(post);
                 return response;
             } catch (Exception e) {
@@ -326,7 +324,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 IOUtils.copy(in, writer, "UTF-8");
                 Gson g = new Gson();
                 AuthenticationData auth = g.fromJson(writer.toString(), AuthenticationData.class);
+                TextView resultIdText = (TextView) findViewById(R.id.email);
                 mEmailView.setText(status.getStatusCode());*/
+                showProgress(false);
                 AlertDialog.Builder box = new AlertDialog.Builder(mActivity);
                 box.setMessage("Http code " + status.getStatusCode());
                 box.setTitle("Info");
