@@ -319,16 +319,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             try {
                 HttpEntity entity = result.getEntity();
                 StatusLine status = result.getStatusLine();
-                /*InputStream in = entity.getContent();
+                InputStream in = entity.getContent();
                 StringWriter writer = new StringWriter();
                 IOUtils.copy(in, writer, "UTF-8");
                 Gson g = new Gson();
                 AuthenticationData auth = g.fromJson(writer.toString(), AuthenticationData.class);
-                TextView resultIdText = (TextView) findViewById(R.id.email);
+                /*TextView resultIdText = (TextView) findViewById(R.id.email);
                 mEmailView.setText(status.getStatusCode());*/
                 showProgress(false);
                 AlertDialog.Builder box = new AlertDialog.Builder(mActivity);
-                box.setMessage("Http code " + status.getStatusCode());
+                box.setMessage("Http code " + status.getStatusCode() + "\n Bearer token " + auth.access_token);
                 box.setTitle("Info");
                 box.setPositiveButton("OK", null);
                 box.setCancelable(true);
