@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -172,7 +173,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            LoginActivity temp = this;
+            mAuthTask = new UserLoginTask(email, password, temp);
             mAuthTask.execute((Void) null);
         }
     }
@@ -281,71 +283,31 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, HttpResponse> {
 
         private final String mEmail;
         private final String mPassword;
+        private final LoginActivity mActivity;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, LoginActivity temp) {
             mEmail = email;
             mPassword = password;
+            mActivity = temp;
         }
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
-    private class HttpRequestTask extends AsyncTask<Void, Void, HttpResponse> {
         @Override
         protected HttpResponse doInBackground(Void... params) {
             try {
                 HttpClient client = new DefaultHttpClient();
-                String url = "http://pulsometerrest.apphb.com/api/Token";
+                String url = "http://pulsometerrest.apphb.com/Token";
                 HttpPost post = new HttpPost(url);
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 TextView resultIdText = (TextView) findViewById(R.id.email);
                 nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
-                nameValuePairs.add(new BasicNameValuePair("username", mEmailView.getText().toString()));
-                nameValuePairs.add(new BasicNameValuePair("password", mPasswordView.getText().toString()));
+                nameValuePairs.add(new BasicNameValuePair("username", mEmail));
+                nameValuePairs.add(new BasicNameValuePair("password", mPassword));
                 post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                //post.setHeader("Content-Type", "application/x-www-form-urlencoded");
                 HttpResponse response = client.execute(post);
                 return response;
             } catch (Exception e) {
@@ -357,21 +319,31 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         @Override
         protected void onPostExecute(HttpResponse result) {
             try {
-                TextView resultIdText = (TextView) findViewById(R.id.email);
                 HttpEntity entity = result.getEntity();
                 StatusLine status = result.getStatusLine();
-                InputStream in = entity.getContent();
+                /*InputStream in = entity.getContent();
                 StringWriter writer = new StringWriter();
                 IOUtils.copy(in, writer, "UTF-8");
                 Gson g = new Gson();
                 AuthenticationData auth = g.fromJson(writer.toString(), AuthenticationData.class);
-                resultIdText.setText(status.getStatusCode());
+                mEmailView.setText(status.getStatusCode());*/
+                AlertDialog.Builder box = new AlertDialog.Builder(mActivity);
+                box.setMessage("Http code " + status.getStatusCode());
+                box.setTitle("Info");
+                box.setPositiveButton("OK", null);
+                box.setCancelable(true);
+                box.create().show();
             }catch(Exception e){
                 Log.e("MainActivity2", e.getMessage(), e);
             }
         }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            showProgress(false);
+        }
     }
-    //http://jbossas-pulsometer.rhcloud.com/
 }
 
 
