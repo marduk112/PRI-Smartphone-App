@@ -1,4 +1,4 @@
-package Logic.SHealth;
+package com.example.pulsometer.Logic.SHealth;
 
 import android.app.Application;
 import android.content.Context;
@@ -8,8 +8,9 @@ import com.samsung.android.sdk.SsdkUnsupportedException;
 import com.samsung.android.sdk.shealth.Shealth;
 
 public class PluginTrackerProvider extends Application {
+
     private Context mContext;
-    private static final String LOG_TAG = "PluginTracker";
+    private static final String LOG_TAG = "Pulsometer";
 
     @Override
     public void onCreate() {
@@ -24,7 +25,7 @@ public class PluginTrackerProvider extends Application {
             if (eType == SsdkUnsupportedException.VENDOR_NOT_SUPPORTED) {
                 // It is thrown if the device does not support the S Health SDK.
             } else if (eType == SsdkUnsupportedException.LIBRARY_NOT_INSTALLED) {
-            // It is thrown if the library of the SDK is not found.
+                // It is thrown if the library of the SDK is not found.
             }
         } catch (Exception e1) {
             Log.d(LOG_TAG, "Samsung Digital Health Initialization failed.");

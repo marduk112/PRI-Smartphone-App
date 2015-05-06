@@ -5,4 +5,6 @@
     <string name="register_screen">Register Screen</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_register">RegisterActivity</string>
+
+    <string name="tracker_test_display_name">Pulsometer</string>
 </resources>
