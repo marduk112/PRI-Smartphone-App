@@ -10,4 +10,10 @@
     <string name="title_activity_login_suuccessfull">LoginSuuccessfullActivity</string>
 
     <string name="hello_world">Login correct!</string>
+    <string name="title_activity_case">CaseActivity</string>
+
+    <string name="case_screen">Selection Screen</string>
+    <string name="title_activity_login_successfull">LoginSuccessfullActivity</string>
+    <string name="title_activity_analisys">AnalisysActivity</string>
+    <string name="analisys_screen">Analisys Screen</string>
 </resources>

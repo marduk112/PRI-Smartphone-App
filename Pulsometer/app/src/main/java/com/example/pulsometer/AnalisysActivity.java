@@ -1,45 +1,37 @@
 package com.example.pulsometer;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-import com.example.pulsometer.Logic.AuthenticationData;
 import com.example.pulsometer.R;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
-public class LoginSuccessfullActivity extends ActionBarActivity {
+public class AnalisysActivity extends ActionBarActivity {
 
-    private AuthenticationData auth;
-    private final Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_successfull);
-        Bundle extras = getIntent().getExtras();
-        auth = (AuthenticationData)extras.get("authData");
-
-        Button button = (Button)findViewById(R.id.to_case_activity);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, CaseActivity.class);
-                intent.putExtra("authData", auth);
-                startActivity(intent);
-            }
+        setContentView(R.layout.activity_analisys);
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
         });
+        graph.addSeries(series);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login_suuccessfull, menu);
+        getMenuInflater().inflate(R.menu.menu_analisys, menu);
         return true;
     }
 

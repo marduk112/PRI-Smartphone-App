@@ -18,14 +18,6 @@
     -->
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
-    <android:uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-
     <application
         android:name=".Logic.SHealth.PluginTrackerProvider"
         android:allowBackup="true"
@@ -69,6 +61,14 @@
         <activity
             android:name=".LoginSuccessfullActivity"
             android:label="@string/title_activity_login_suuccessfull" >
+        </activity>
+        <activity
+            android:name=".CaseActivity"
+            android:label="@string/title_activity_case" >
+        </activity>
+        <activity
+            android:name=".AnalisysActivity"
+            android:label="@string/title_activity_analisys" >
         </activity>
     </application>
 

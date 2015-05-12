@@ -4,9 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -45,9 +47,19 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.example.pulsometer.Logic.AuthenticationData;
+import com.samsung.android.sdk.healthdata.HealthConnectionErrorResult;
+import com.samsung.android.sdk.healthdata.HealthConstants;
+import com.samsung.android.sdk.healthdata.HealthDataService;
+import com.samsung.android.sdk.healthdata.HealthDataStore;
+import com.samsung.android.sdk.healthdata.HealthPermissionManager;
+import com.samsung.android.sdk.healthdata.HealthResultHolder;
+import com.samsung.android.sdk.remotesensor.SrsRemoteSensor;
 
 /**
  * A login screen that offers login via email/password.
@@ -74,6 +86,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private final Context context = this;
     private static final String TRACKER_ID = "tracker.test";
     private static final String LOG_TAG = "PluginTracker";
+    public static final String APP_TAG = "Pulsometer";
+    private HealthDataStore mStore;
+    private HealthPermissionManager.PermissionKey mPermissionKey;
+    private HealthConnectionErrorResult mConnError;
+    private Set<HealthPermissionManager.PermissionKey> mKeySet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,8 +133,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 startActivity(intent);
             }
         });
+        MyTracker myTracker = new MyTracker(this);
 
-
+        mKeySet = new HashSet<HealthPermissionManager.PermissionKey>();
+        mKeySet.add(new HealthPermissionManager.PermissionKey(HealthConstants.StepCount.HEALTH_DATA_TYPE, HealthPermissionManager.PermissionType.READ));
+        HealthDataService healthDataService = new HealthDataService();
+        try {
+            healthDataService.initialize(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Create a HealthDataStore instance and set its listener
+        mStore = new HealthDataStore(this, mConnectionListener);
+        // Request the connection
+        mStore.connectService();
     }
 
     /**
@@ -277,7 +306,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mEmailView.setAdapter(adapter);
     }
 
-    /*private final HealthDataStore.ConnectionListener mConnectionListener
+    private final HealthDataStore.ConnectionListener mConnectionListener
             = new HealthDataStore.ConnectionListener() {
         @Override
         public void onConnected() {
@@ -306,7 +335,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         public void onConnectionFailed(HealthConnectionErrorResult error) {
             // Resolve error if the connection fails
             showConnectionFailureDialog(error);
-            finish();
+            //finish();
         }
 
         @Override
@@ -314,6 +343,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // The connection is disconnected
         }
     };
+
     private final HealthResultHolder.ResultListener<HealthPermissionManager.PermissionResult> mPermissionListener =
             new HealthResultHolder.ResultListener<HealthPermissionManager.PermissionResult>() {
                 @Override
@@ -325,14 +355,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                         // The requested permission is acquired.
                     }
                 }
-            };*/
+            };
 
     private void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
     }
-    /*private void showConnectionFailureDialog(HealthConnectionErrorResult error) {
+    private void showConnectionFailureDialog(HealthConnectionErrorResult error) {
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
         mConnError = error;
         String message = "Connection with S Health is not available";
 
@@ -372,7 +402,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
 
         alert.show();
-    }*/
+    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -420,9 +450,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 Gson g = new Gson();
                 AuthenticationData auth = g.fromJson(writer.toString(), AuthenticationData.class);
                 showProgress(false);
-                Intent intent = new Intent(context, LoginSuccessfullActivity.class);
-                intent.putExtra("authData", auth);
-                startActivity(intent);
+                if (status.getStatusCode() == 200) {
+                    Intent intent = new Intent(context, LoginSuccessfullActivity.class);
+                    intent.putExtra("authData", auth);
+                    startActivity(intent);
+                }
+                else {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Error")
+                            .setMessage("Authentication error")
+                            .setNegativeButton("OK", null)
+                            .show();
+                }
             }catch(Exception e){
                 Log.e("MainActivity2", e.getMessage(), e);
             }
