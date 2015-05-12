@@ -7,4 +7,7 @@
     <string name="title_activity_register">RegisterActivity</string>
 
     <string name="tracker_test_display_name">Pulsometer</string>
+    <string name="title_activity_login_suuccessfull">LoginSuuccessfullActivity</string>
+
+    <string name="hello_world">Login correct!</string>
 </resources>

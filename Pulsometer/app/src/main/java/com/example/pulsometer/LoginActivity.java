@@ -4,25 +4,19 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -54,8 +48,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.pulsometer.Logic.AuthenticationData;
-import com.samsung.android.sdk.healthdata.*;
-import com.samsung.android.sdk.shealth.tracker.TrackerTileManager;
 
 /**
  * A login screen that offers login via email/password.
@@ -427,15 +419,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 IOUtils.copy(in, writer, "UTF-8");
                 Gson g = new Gson();
                 AuthenticationData auth = g.fromJson(writer.toString(), AuthenticationData.class);
-                /*TextView resultIdText = (TextView) findViewById(R.id.email);
-                mEmailView.setText(status.getStatusCode());*/
                 showProgress(false);
-                AlertDialog.Builder box = new AlertDialog.Builder(mActivity);
-                box.setMessage("Http code " + status.getStatusCode() + "\n Bearer token " + auth.access_token);
-                box.setTitle("Info");
-                box.setPositiveButton("OK", null);
-                box.setCancelable(true);
-                box.create().show();
+                Intent intent = new Intent(context, LoginSuccessfullActivity.class);
+                intent.putExtra("authData", auth);
+                startActivity(intent);
             }catch(Exception e){
                 Log.e("MainActivity2", e.getMessage(), e);
             }
