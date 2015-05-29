@@ -1,11 +1,10 @@
 package com.example.pulsometer;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.pulsometer.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -22,7 +21,7 @@ public class AnalisysActivity extends ActionBarActivity {
                 new DataPoint(1, 5),
                 new DataPoint(2, 3),
                 new DataPoint(3, 2),
-                new DataPoint(4, 6)
+                new DataPoint(4, 6),
         });
         graph.addSeries(series);
     }

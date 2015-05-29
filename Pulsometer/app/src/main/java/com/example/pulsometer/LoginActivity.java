@@ -8,13 +8,11 @@ import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -30,7 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.pulsometer.Logic.SHealth.MyTracker;
+import com.example.pulsometer.Logic.AuthenticationData;
 import com.google.gson.Gson;
 
 import org.apache.commons.io.IOUtils;
@@ -47,19 +45,8 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-
-import com.example.pulsometer.Logic.AuthenticationData;
-import com.samsung.android.sdk.healthdata.HealthConnectionErrorResult;
-import com.samsung.android.sdk.healthdata.HealthConstants;
-import com.samsung.android.sdk.healthdata.HealthDataService;
-import com.samsung.android.sdk.healthdata.HealthDataStore;
-import com.samsung.android.sdk.healthdata.HealthPermissionManager;
-import com.samsung.android.sdk.healthdata.HealthResultHolder;
-import com.samsung.android.sdk.remotesensor.SrsRemoteSensor;
 
 /**
  * A login screen that offers login via email/password.
@@ -82,15 +69,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private MyTracker myTracker;
     private final Context context = this;
     private static final String TRACKER_ID = "tracker.test";
     private static final String LOG_TAG = "PluginTracker";
     public static final String APP_TAG = "Pulsometer";
-    private HealthDataStore mStore;
-    private HealthPermissionManager.PermissionKey mPermissionKey;
-    private HealthConnectionErrorResult mConnError;
-    private Set<HealthPermissionManager.PermissionKey> mKeySet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,20 +115,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 startActivity(intent);
             }
         });
-        MyTracker myTracker = new MyTracker(this);
-
-        mKeySet = new HashSet<HealthPermissionManager.PermissionKey>();
-        mKeySet.add(new HealthPermissionManager.PermissionKey(HealthConstants.StepCount.HEALTH_DATA_TYPE, HealthPermissionManager.PermissionType.READ));
-        HealthDataService healthDataService = new HealthDataService();
-        try {
-            healthDataService.initialize(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        // Create a HealthDataStore instance and set its listener
-        mStore = new HealthDataStore(this, mConnectionListener);
-        // Request the connection
-        mStore.connectService();
     }
 
     /**
@@ -284,12 +252,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.matches(EMAIL_PATTERN);
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.matches(PASSWORD_PATTERN);
     }
     private static final String EMAIL_PATTERN =
@@ -306,102 +272,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mEmailView.setAdapter(adapter);
     }
 
-    private final HealthDataStore.ConnectionListener mConnectionListener
-            = new HealthDataStore.ConnectionListener() {
-        @Override
-        public void onConnected() {
-            // The connection is successful.
-            // Acquires the required permission
-            HealthPermissionManager pmsManager = new HealthPermissionManager(mStore);
-            try {
-                // Check whether the required permission is acquired
-                Set<HealthPermissionManager.PermissionKey> keySet = new HashSet<>();
-                keySet.add(mPermissionKey);
-                Map<HealthPermissionManager.PermissionKey, Boolean> resultMap = pmsManager.isPermissionAcquired(keySet);
-                if (resultMap.get(mPermissionKey) == Boolean.TRUE) {
-                    // The permission has been acquired already
-                } else {
-                    // Requests permission to read the count of steps
-                    pmsManager.requestPermissions(keySet)
-                            .setResultListener(mPermissionListener);
-                }
-            } catch (Exception e) {
-                Log.e(APP_TAG, e.getClass().getName() + " - " + e.getMessage());
-                Log.e(APP_TAG, "Permission setting fails.");
-            }
-        }
-
-        @Override
-        public void onConnectionFailed(HealthConnectionErrorResult error) {
-            // Resolve error if the connection fails
-            showConnectionFailureDialog(error);
-            //finish();
-        }
-
-        @Override
-        public void onDisconnected() {
-            // The connection is disconnected
-        }
-    };
-
-    private final HealthResultHolder.ResultListener<HealthPermissionManager.PermissionResult> mPermissionListener =
-            new HealthResultHolder.ResultListener<HealthPermissionManager.PermissionResult>() {
-                @Override
-                public void onResult(HealthPermissionManager.PermissionResult result) {
-                    Map<HealthPermissionManager.PermissionKey, Boolean> resultMap = result.getResultMap();
-                    if (resultMap.get(mPermissionKey) == Boolean.FALSE) {
-                        // The requested permission is not acquired
-                    } else {
-                        // The requested permission is acquired.
-                    }
-                }
-            };
-
     private void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
-    }
-    private void showConnectionFailureDialog(HealthConnectionErrorResult error) {
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(context);
-        mConnError = error;
-        String message = "Connection with S Health is not available";
-
-        if (mConnError.hasResolution()) {
-            switch(error.getErrorCode()) {
-                case HealthConnectionErrorResult.PLATFORM_NOT_INSTALLED:
-                    message = "Please install S Health";
-                    break;
-                case HealthConnectionErrorResult.OLD_VERSION_PLATFORM:
-                    message = "Please upgrade S Health";
-                    break;
-                case HealthConnectionErrorResult.PLATFORM_DISABLED:
-                    message = "Please enable S Health";
-                    break;
-                case HealthConnectionErrorResult.USER_AGREEMENT_NEEDED:
-                    message = "Please agree with S Health policy";
-                    break;
-                default:
-                    message = "Please make S Health available";
-                    break;
-            }
-        }
-
-        alert.setMessage(message);
-
-        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                if (mConnError.hasResolution()) {
-                    mConnError.resolve((Activity) context);
-                }
-            }
-        });
-
-        if (error.hasResolution()) {
-            alert.setNegativeButton("Cancel", null);
-        }
-
-        alert.show();
     }
 
     /**
