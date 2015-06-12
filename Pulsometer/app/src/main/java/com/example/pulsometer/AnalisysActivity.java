@@ -1,10 +1,12 @@
 package com.example.pulsometer;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.pulsometer.Logic.GlobalVariable;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -24,6 +26,7 @@ public class AnalisysActivity extends ActionBarActivity {
                 new DataPoint(4, 6),
         });
         graph.addSeries(series);
+        new AlertDialog.Builder(this).setTitle("cos tam").setMessage(GlobalVariable.pulses.size()).setPositiveButton("ok",null);
     }
 
 

@@ -24,6 +24,7 @@ package com.example.pulsometer.Logic.sapProvider;/*
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.HashMap;
@@ -42,6 +43,7 @@ import android.text.format.Time;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.pulsometer.Logic.GlobalVariable;
 import com.samsung.android.sdk.SsdkUnsupportedException;
 import com.samsung.android.sdk.accessory.SA;
 import com.samsung.android.sdk.accessory.SAAgent;
@@ -222,6 +224,15 @@ public class SAPServiceProvider extends SAAgent {
             if (uHandler == null) {
                 return;
             }
+
+            try {
+                String test = new String(data, "UTF-8");
+                Double puls = Double.valueOf(test);
+                GlobalVariable.pulses.add(puls);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
             new Thread(new Runnable() {
                 public void run() {
                     try {
