@@ -9,7 +9,7 @@
     tools:context="com.example.pulsometer.LoginSuccessfullActivity"
     android:orientation="horizontal"
     android:weightSum="1"
-    android:background="#ff000000">
+    android:background="@drawable/tlo">
 
     <ScrollView
         android:layout_width="match_parent"

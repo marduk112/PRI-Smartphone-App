@@ -16,4 +16,5 @@
     <string name="title_activity_login_successfull">LoginSuccessfullActivity</string>
     <string name="title_activity_analisys">AnalisysActivity</string>
     <string name="analisys_screen">Analisys Screen</string>
+    <string name="title_activity_connect">ConnectActivity</string>
 </resources>

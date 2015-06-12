@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.pulsometer"
-    >
+    package="com.example.pulsometer" >
 
     <uses-sdk
         android:minSdkVersion="19"
@@ -19,12 +18,19 @@
      option is required to comply with the Google+ Sign-In developer policies
     -->
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-
     <uses-permission android:name="com.samsung.accessory.permission.ACCESSORY_FRAMEWORK" />
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
     <uses-permission android:name="com.samsung.WATCH_APP_TYPE.Integrated" />
     <uses-permission android:name="com.samsung.wmanager.APP" />
     <uses-permission android:name="com.samsung.wmanager.ENABLE_NOTIFICATION" />
+
+    <android:uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -42,7 +48,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".Logic.sapProvider.SAPServiceProvider"/>
+        <service android:name=".Logic.sapProvider.SAPServiceProvider" />
+
         <receiver android:name="com.samsung.android.sdk.accessory.ServiceConnectionIndicationBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.accessory.service.action.ACCESSORY_SERVICE_CONNECTION_IND" />
@@ -53,13 +60,13 @@
                 <action android:name="android.accessory.device.action.REGISTER_AFTER_INSTALL" />
             </intent-filter>
         </receiver>
+
         <meta-data
             android:name="AccessoryServicesLocation"
-            android:value="/res/xml/sapservices.xml"/>
+            android:value="/res/xml/sapservices.xml" />
         <meta-data
             android:name="GearAppType"
             android:value="wgt" />
-        
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -69,7 +76,6 @@
             android:label="@string/title_activity_register"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
-
         <activity
             android:name=".LoginSuccessfullActivity"
             android:label="@string/title_activity_login_suuccessfull" >
@@ -81,6 +87,10 @@
         <activity
             android:name=".AnalisysActivity"
             android:label="@string/title_activity_analisys" >
+        </activity>
+        <activity
+            android:name="com.example.szymonwjcik.pulsometer.ConnectActivity"
+            android:label="@string/title_activity_connect" >
         </activity>
     </application>
 

@@ -24,6 +24,7 @@ package com.example.pulsometer.Logic.sapProvider;/*
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.HashMap;
@@ -221,6 +222,11 @@ public class SAPServiceProvider extends SAAgent {
             final SAPServiceProviderConnection uHandler = mConnectionsMap.get(Integer.parseInt(String.valueOf(mConnectionId)));
             if (uHandler == null) {
                 return;
+            }
+            try {
+                new String(data, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
             new Thread(new Runnable() {
                 public void run() {
