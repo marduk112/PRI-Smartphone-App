@@ -88,10 +88,7 @@
             android:name=".AnalisysActivity"
             android:label="@string/title_activity_analisys" >
         </activity>
-        <activity
-            android:name="com.example.szymonwjcik.pulsometer.ConnectActivity"
-            android:label="@string/title_activity_connect" >
-        </activity>
+
     </application>
 
 </manifest>

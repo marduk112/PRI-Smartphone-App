@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <application name="Pulsometer">
+    <application name="PulsometerProvider">
         <serviceProfile
-            id="/system/pulsex"
+            id="/sample/pulsex"
             name="pulsex"
             role="provider"
             serviceImpl="com.example.pulsometer.Logic.sapProvider.SAPServiceProvider"

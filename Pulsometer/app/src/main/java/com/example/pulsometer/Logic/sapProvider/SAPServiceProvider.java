@@ -31,6 +31,7 @@ import java.util.HashMap;
 
 import javax.security.cert.X509Certificate;
 
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -43,6 +44,7 @@ import android.text.format.Time;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.pulsometer.Logic.GlobalVariables;
 import com.samsung.android.sdk.SsdkUnsupportedException;
 import com.samsung.android.sdk.accessory.SA;
 import com.samsung.android.sdk.accessory.SAAgent;
@@ -224,7 +226,10 @@ public class SAPServiceProvider extends SAAgent {
                 return;
             }
             try {
-                new String(data, "UTF-8");
+                String puls = new String(data, "UTF-8");
+                //System.out.println("Pulse " + puls);
+                GlobalVariables.Pulses.add(Integer.parseInt(puls));
+                //System.out.println("Global var " + Integer.parseInt(puls));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

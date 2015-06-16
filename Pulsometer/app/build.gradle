@@ -26,4 +26,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.google.android.gms:play-services:6.5.87'
     compile 'com.jjoe64:graphview:4.0.1'
+    compile 'net.java.dev.glazedlists:glazedlists_java15:1.9.0'
 }
+

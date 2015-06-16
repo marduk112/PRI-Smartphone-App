@@ -35,6 +35,13 @@
                 android:layout_height="200dip"
                 android:id="@+id/graph" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="275dp"
+                android:text="New Text"
+                android:id="@+id/textView2"
+                android:layout_gravity="center_vertical" />
+
         </LinearLayout>
     </ScrollView>
 
