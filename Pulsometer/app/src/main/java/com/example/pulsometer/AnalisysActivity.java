@@ -21,7 +21,7 @@ import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.event.ListEvent;
 import ca.odell.glazedlists.event.ListEventListener;
 
-public class AnalisysActivity extends ActionBarActivity {
+public class AnalisysActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

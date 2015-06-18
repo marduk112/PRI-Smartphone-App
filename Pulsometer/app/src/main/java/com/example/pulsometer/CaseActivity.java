@@ -1,5 +1,6 @@
 package com.example.pulsometer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -12,7 +13,7 @@ import android.widget.Button;
 import com.example.pulsometer.Logic.AuthenticationData;
 import com.example.pulsometer.R;
 
-public class CaseActivity extends ActionBarActivity {
+public class CaseActivity extends Activity {
 
     private AuthenticationData auth;
     private final Context context = this;
