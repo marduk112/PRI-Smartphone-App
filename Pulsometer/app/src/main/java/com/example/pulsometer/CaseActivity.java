@@ -22,6 +22,8 @@ public class CaseActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_case);
         Button button = (Button)findViewById(R.id.AnalisysButton);
+        Intent intent = getIntent();
+        auth = (AuthenticationData)intent.getSerializableExtra("authData");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

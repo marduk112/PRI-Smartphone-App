@@ -1,20 +1,44 @@
 package com.example.pulsometer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.pulsometer.Logic.AuthenticationData;
 import com.example.pulsometer.Logic.GlobalVariables;
+import com.google.gson.Gson;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
@@ -26,6 +50,8 @@ public class AnalisysActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        auth = (AuthenticationData)intent.getSerializableExtra("authData");
         context = this;
         setContentView(R.layout.activity_analisys);
         graph = (GraphView) findViewById(R.id.graph);
@@ -59,6 +85,7 @@ public class AnalisysActivity extends Activity {
                             series.appendData(new DataPoint(x, temp), true, 10000);
                             x += 0.25;
                             graph.getViewport().computeScroll();
+                            new SendPulseTask(temp).execute();
                         }
                     });
                     //
@@ -68,10 +95,61 @@ public class AnalisysActivity extends Activity {
             }
         }
     }
+    private class SendPulseTask extends AsyncTask<Void, Void, HttpResponse> {
+
+        private final Integer pulse;
+
+        SendPulseTask(Integer pulse) {
+            this.pulse = pulse;
+        }
+
+        @Override
+        protected HttpResponse doInBackground(Void... params) {
+            try {
+                HttpClient client = new DefaultHttpClient();
+                String url = "http://pulsometerrest.apphb.com/api/Pulses";
+                HttpPost post = new HttpPost(url);
+                post.addHeader("Authorization", "Bearer " + auth.access_token);
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+                nameValuePairs.add(new BasicNameValuePair("PulseValue", pulse.toString()));
+                android.text.format.DateFormat df = new android.text.format.DateFormat();
+                String newDate = df.format("yyyy-MM-dd\'T\'hh:mm:ss", date).toString()+".6301773+00:00";
+                //nameValuePairs.add(new BasicNameValuePair("DateCreated", newDate));
+
+                post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                HttpResponse response = client.execute(post);
+                return response;
+            } catch (Exception e) {
+                Log.e("MainActivity", e.getMessage(), e);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(HttpResponse result) {
+            try {
+                if (result.getStatusLine().getStatusCode() == 200){
+                    System.out.println("OK");
+                }
+                else {
+                    System.out.println("ERROR " + result.getStatusLine().getReasonPhrase() + result.getStatusLine().getStatusCode());
+                }
+            }catch(Exception e){
+                Log.e("AnalysisActivity", e.getMessage(), e);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+
+        }
+    }
     private LineGraphSeries<DataPoint> series;
     private GraphView graph;
+    private AuthenticationData auth;
     private Context context;
     private static double x = 0;
+    private Date date = new Date();
     /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
