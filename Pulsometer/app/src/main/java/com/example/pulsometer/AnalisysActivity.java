@@ -113,8 +113,9 @@ public class AnalisysActivity extends Activity {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("PulseValue", pulse.toString()));
                 android.text.format.DateFormat df = new android.text.format.DateFormat();
-                String newDate = df.format("yyyy-MM-dd\'T\'hh:mm:ss", date).toString()+".6301773+00:00";
-                //nameValuePairs.add(new BasicNameValuePair("DateCreated", newDate));
+                String newDate = df.format("yyyy-MM-dd'T'HH:mm:ss", date).toString();
+                System.out.println("Data " + newDate);
+                nameValuePairs.add(new BasicNameValuePair("DateCreated", newDate));
 
                 post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
                 HttpResponse response = client.execute(post);
@@ -128,7 +129,7 @@ public class AnalisysActivity extends Activity {
         @Override
         protected void onPostExecute(HttpResponse result) {
             try {
-                if (result.getStatusLine().getStatusCode() == 200){
+                if (result.getStatusLine().getStatusCode() == 201){
                     System.out.println("OK");
                 }
                 else {
