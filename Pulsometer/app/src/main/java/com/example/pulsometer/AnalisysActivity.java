@@ -60,6 +60,8 @@ public class AnalisysActivity extends Activity {
         });
         graph.getViewport().setMinY(50);
         graph.getViewport().setMaxY(100);
+        //graph.setBackground();
+        graph.setBackgroundColor(getResources().getColor(android.R.color.white));
         /*graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(100);*/
         graph.getViewport().setYAxisBoundsManual(true);

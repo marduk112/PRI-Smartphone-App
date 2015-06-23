@@ -17,4 +17,5 @@
     <string name="title_activity_analisys">AnalisysActivity</string>
     <string name="analisys_screen">Analisys Screen</string>
     <string name="title_activity_connect">ConnectActivity</string>
+    <string name="title_activity_history">HistoryActivity</string>
 </resources>

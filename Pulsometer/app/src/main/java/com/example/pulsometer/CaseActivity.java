@@ -12,8 +12,13 @@ import android.widget.Button;
 
 import com.example.pulsometer.Logic.AuthenticationData;
 import com.example.pulsometer.R;
+import com.example.szymonwjcik.pulsometer.HistoryActivity;
 
 public class CaseActivity extends Activity {
+
+    @Override
+    public void onBackPressed() {
+    }
 
     private AuthenticationData auth;
     private final Context context = this;
@@ -28,6 +33,15 @@ public class CaseActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AnalisysActivity.class);
+                intent.putExtra("authData", auth);
+                startActivity(intent);
+            }
+        });
+        Button button2 = (Button)findViewById(R.id.history);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HistoryActivity.class);
                 intent.putExtra("authData", auth);
                 startActivity(intent);
             }
