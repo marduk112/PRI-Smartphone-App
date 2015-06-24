@@ -3,6 +3,7 @@ package com.example.pulsometer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,6 +19,10 @@ public class LoginSuccessfullActivity extends Activity {
 
     private AuthenticationData auth;
     private final Context context = this;
+
+    @Override
+     public void onBackPressed() {
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +37,7 @@ public class LoginSuccessfullActivity extends Activity {
                 Intent intent = new Intent(context, CaseActivity.class);
                 intent.putExtra("authData", auth);
                 startActivity(intent);
+                finish();
             }
         });
     }

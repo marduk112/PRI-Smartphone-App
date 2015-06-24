@@ -75,6 +75,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     public static final String APP_TAG = "Pulsometer";
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        android.os.Process.killProcess(android.os.Process.myPid());
+        super.onDestroy();
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
