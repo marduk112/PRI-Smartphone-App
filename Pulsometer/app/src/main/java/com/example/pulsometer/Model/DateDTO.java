@@ -1,12 +1,9 @@
 package com.example.pulsometer.Model;
 
-import java.util.Date;
-
 /**
  * Created by Szymon Wójcik on 2015-06-24.
  */
-public class Pulse {
+public class DateDTO {
+    public String MeasurementDate;
     public int Id;
-    public int PulseValue;
-    public String UserName;
 }

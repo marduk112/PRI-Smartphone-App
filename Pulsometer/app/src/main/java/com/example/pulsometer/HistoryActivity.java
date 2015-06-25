@@ -7,38 +7,43 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.pulsometer.Logic.AuthenticationData;
+import com.example.pulsometer.Logic.GlobalVariables;
 import com.example.pulsometer.Model.Date;
-import com.example.pulsometer.Model.Pulse;
+import com.example.pulsometer.Model.DateDTO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Szymon Wójcik on 2015-06-24.
  */
-public class HistoryActivity extends Activity {
+public class HistoryActivity extends Activity implements AdapterView.OnItemClickListener {
     private AuthenticationData auth;
     private final Context context = this;
-    private List<Date> history = new ArrayList<>();
+    private List<java.util.Date> history = new ArrayList<>();
+    private ListView listView;
+    private ArrayAdapter<java.util.Date> adapter;
+    private List<DateDTO> temp;
 
     @Override
     public void onBackPressed() {
@@ -50,8 +55,24 @@ public class HistoryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        Bundle extras = getIntent().getExtras();
-        auth = (AuthenticationData)extras.get("authData");
+        Intent intent = getIntent();
+        auth = (AuthenticationData)intent.getSerializableExtra("authData");
+        System.out.println("History Token" + auth.access_token);
+        listView = (ListView) findViewById(R.id.historyListView);
+        listView.setOnItemClickListener(this);
+        new GetHistoryTask().execute();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.i("HistoryListView", "You clicked Item: " + id + " at position:" + position);
+        Intent intent = new Intent();
+        intent.setClass(this, AnalisysActivity.class);
+        intent.putExtra("authData", auth);
+        intent.putExtra("DBPosition", temp.get(position).Id);
+        intent.putExtra("Measurement", history.get(position));
+        startActivity(intent);
+        finish();
     }
 
     private class GetHistoryTask extends AsyncTask<Void, Void, HttpResponse> {
@@ -81,7 +102,22 @@ public class HistoryActivity extends Activity {
                     StringWriter writer = new StringWriter();
                     IOUtils.copy(in, writer, "UTF-8");
                     Gson g = new Gson();
-                    Date pulse = g.fromJson(writer.toString(), new TypeToken<List<Date>>(){}.getType());
+                    System.out.println("History: \n" + writer.toString());
+                    temp = g.fromJson(writer.toString(), new TypeToken<Collection<DateDTO>>(){}.getType());
+
+                    //"yyyy-MM-dd'T'HH:mm:ss"
+                    for (DateDTO date : temp)
+                    {
+                        String dateStr = date.MeasurementDate;
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                        history.add(sdf.parse(dateStr));
+                    }
+                    Collections.sort(history);
+                    // Adapter: You need three parameters 'the context, id of the layout (it will be where the data is shown),
+                    // and the array that contains the data
+                    adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, history);
+                    listView.setAdapter(adapter);
+
                     System.out.println("OK");
                 }
                 else {

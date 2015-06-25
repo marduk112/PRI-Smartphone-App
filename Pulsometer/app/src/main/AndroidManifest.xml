@@ -39,6 +39,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LoginActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>
@@ -73,24 +74,33 @@
 
         <activity
             android:name=".RegisterActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_register"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
             android:name=".LoginSuccessfullActivity"
-            android:label="@string/title_activity_login_suuccessfull" >
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_login_suuccessfull"
+            android:windowSoftInputMode="adjustResize|stateVisible">
         </activity>
         <activity
             android:name=".CaseActivity"
-            android:label="@string/title_activity_case" >
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_case"
+            android:windowSoftInputMode="adjustResize|stateVisible">
         </activity>
         <activity
             android:name=".AnalisysActivity"
-            android:label="@string/title_activity_analisys" >
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_analisys"
+            android:windowSoftInputMode="adjustResize|stateVisible">
         </activity>
         <activity
-            android:name="com.example.szymonwjcik.pulsometer.HistoryActivity"
-            android:label="@string/title_activity_history" >
+            android:name=".HistoryActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_history"
+            android:windowSoftInputMode="adjustResize|stateVisible">
         </activity>
     </application>
 
