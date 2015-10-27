@@ -4,30 +4,17 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.provider.ContactsContract;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.pulsometer.R;
+import com.example.pulsometer.Logic.GlobalVariables;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -178,7 +165,7 @@ public class RegisterActivity extends Activity {
         protected HttpResponse doInBackground(Void... params) {
             try {
                 HttpClient client = new DefaultHttpClient();
-                String url = "http://pulsometerrest.apphb.com/api/Account/Register";
+                String url = GlobalVariables.BaseUrlForRest + "api/Account/Register";
                 HttpPost post = new HttpPost(url);
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 TextView resultIdText = (TextView) findViewById(R.id.email);

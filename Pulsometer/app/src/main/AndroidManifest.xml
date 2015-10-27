@@ -82,25 +82,33 @@
             android:name=".LoginSuccessfullActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_login_suuccessfull"
-            android:windowSoftInputMode="adjustResize|stateVisible">
+            android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
             android:name=".CaseActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_case"
-            android:windowSoftInputMode="adjustResize|stateVisible">
+            android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
             android:name=".AnalisysActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_analisys"
-            android:windowSoftInputMode="adjustResize|stateVisible">
+            android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
         <activity
             android:name=".HistoryActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_history"
-            android:windowSoftInputMode="adjustResize|stateVisible">
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
+        <activity
+            android:name=".LoginViaExternalProviderActivity"
+            android:label="@string/title_activity_login_via_google" >
+        </activity>
+        <activity
+            android:name=".ExternalProvidersActivity"
+            android:label="@string/title_activity_login_via_external_provider" >
         </activity>
     </application>
 

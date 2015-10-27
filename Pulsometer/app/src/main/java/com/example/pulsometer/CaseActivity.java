@@ -11,7 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.pulsometer.Logic.AuthenticationData;
+import com.example.pulsometer.Logic.GlobalVariables;
+import com.example.pulsometer.Model.AuthenticationDataViewModel;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -37,7 +38,7 @@ public class CaseActivity extends Activity {
                 .show();
     }
 
-    private AuthenticationData auth;
+    private AuthenticationDataViewModel auth;
     private final Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class CaseActivity extends Activity {
         setContentView(R.layout.activity_case);
         Button button = (Button)findViewById(R.id.AnalisysButton);
         Intent intent = getIntent();
-        auth = (AuthenticationData)intent.getSerializableExtra("authData");
+        auth = (AuthenticationDataViewModel)intent.getSerializableExtra("authData");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,9 +73,9 @@ public class CaseActivity extends Activity {
         protected HttpResponse doInBackground(Void... params) {
             try {
                 HttpClient client = new DefaultHttpClient();
-                String url = "http://pulsometerrest.apphb.com/api/Account/Logout";
+                String url = GlobalVariables.BaseUrlForRest + "api/Account/Logout";
                 HttpPost post = new HttpPost(url);
-                post.addHeader("Authorization", "Bearer " + auth.access_token);
+                post.addHeader("Authorization", "Bearer " + GlobalVariables.AccessToken);
                 HttpResponse response = client.execute(post);
                 return response;
             } catch (Exception e) {

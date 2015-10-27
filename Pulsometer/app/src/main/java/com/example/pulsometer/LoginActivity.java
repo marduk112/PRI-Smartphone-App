@@ -28,7 +28,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.pulsometer.Logic.AuthenticationData;
+import com.example.pulsometer.Model.AuthenticationDataViewModel;
+import com.example.pulsometer.Logic.GlobalVariables;
 import com.google.gson.Gson;
 
 import org.apache.commons.io.IOUtils;
@@ -46,7 +47,6 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * A login screen that offers login via email/password.
@@ -77,8 +77,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        android.os.Process.killProcess(android.os.Process.myPid());
-        super.onDestroy();
+        /*android.os.Process.killProcess(android.os.Process.myPid());
+        super.onDestroy();*/
         finish();
     }
 
@@ -103,6 +103,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             }
         });
 
+        //mWebView = (WebView) findViewById(R.id.);
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -114,12 +116,21 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-
-        Button button = (Button) findViewById(R.id.registerButton);
-        button.setOnClickListener(new OnClickListener() {
+        Button registerButton = (Button) findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button loginViaExternalProviderButton = (Button) findViewById(R.id.login_via_google);
+        loginViaExternalProviderButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ExternalProvidersActivity.class);
+                //intent.putExtra("provider", "Google");
                 startActivity(intent);
             }
         });
@@ -304,7 +315,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected HttpResponse doInBackground(Void... params) {
             try {
                 HttpClient client = new DefaultHttpClient();
-                String url = "http://pulsometerrest.apphb.com/Token";
+                String url = GlobalVariables.BaseUrlForRest + "Token";
                 HttpPost post = new HttpPost(url);
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
@@ -328,18 +339,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 StringWriter writer = new StringWriter();
                 IOUtils.copy(in, writer, "UTF-8");
                 Gson g = new Gson();
-                AuthenticationData auth = g.fromJson(writer.toString(), AuthenticationData.class);
+                AuthenticationDataViewModel auth = g.fromJson(writer.toString(), AuthenticationDataViewModel.class);
                 showProgress(false);
                 if (status.getStatusCode() == 200) {
                     Intent intent = new Intent(context, LoginSuccessfullActivity.class);
                     intent.putExtra("authData", auth);
+                    GlobalVariables.AccessToken = auth.access_token;
                     startActivity(intent);
                 }
                 else {
                     new AlertDialog.Builder(context)
                             .setTitle("Error")
                             .setMessage("Authentication error")
-                            .setNegativeButton("OK", null)
+                            .setPositiveButton("OK", null)
                             .show();
                 }
             }catch(Exception e){

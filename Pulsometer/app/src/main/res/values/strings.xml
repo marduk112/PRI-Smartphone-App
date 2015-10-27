@@ -18,4 +18,8 @@
     <string name="analisys_screen">Analisys Screen</string>
     <string name="title_activity_connect">ConnectActivity</string>
     <string name="title_activity_history">HistoryActivity</string>
+    <string name="title_activity_login_via_google">LoginViaGoogleActivity</string>
+    <string name="title_activity_login_via_external_provider">LoginViaExternalProviderActivity
+    </string>
+
 </resources>

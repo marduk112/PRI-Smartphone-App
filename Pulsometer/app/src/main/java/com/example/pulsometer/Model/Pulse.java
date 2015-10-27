@@ -3,7 +3,7 @@ package com.example.pulsometer.Model;
 import java.util.Date;
 
 /**
- * Created by Szymon Wójcik on 2015-06-24.
+ * Created by Szymon WÃ³jcik on 2015-06-24.
  */
 public class Pulse {
     public int Id;

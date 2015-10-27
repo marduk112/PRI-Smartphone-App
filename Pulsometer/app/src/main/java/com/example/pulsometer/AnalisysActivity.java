@@ -1,20 +1,13 @@
 package com.example.pulsometer;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
-import com.example.pulsometer.Logic.AuthenticationData;
+import com.example.pulsometer.Model.AuthenticationDataViewModel;
 import com.example.pulsometer.Logic.GlobalVariables;
 import com.example.pulsometer.Model.Pulse;
 import com.google.gson.Gson;
@@ -24,31 +17,23 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.event.ListEvent;
 import ca.odell.glazedlists.event.ListEventListener;
@@ -60,7 +45,7 @@ public class AnalisysActivity extends Activity {
     private int position;
     private LineGraphSeries<DataPoint> series;
     private GraphView graph;
-    private AuthenticationData auth;
+    private AuthenticationDataViewModel auth;
     private Context context;
     private static double x = 0;
     private Date date;
@@ -78,7 +63,7 @@ public class AnalisysActivity extends Activity {
         date = new Date();
         GlobalVariables.Pulses.clear();
         Intent intent = getIntent();
-        auth = (AuthenticationData)intent.getSerializableExtra("authData");
+        auth = (AuthenticationDataViewModel)intent.getSerializableExtra("authData");
         graph = (GraphView) findViewById(R.id.graph);
         graph.getViewport().setMinY(50);
         graph.getViewport().setMaxY(100);
@@ -147,9 +132,9 @@ public class AnalisysActivity extends Activity {
         protected HttpResponse doInBackground(Void... params) {
             try {
                 HttpClient client = new DefaultHttpClient();
-                String url = "http://pulsometerrest.apphb.com/api/Pulses";
+                String url = GlobalVariables.BaseUrlForRest + "api/Pulses";
                 HttpPost post = new HttpPost(url);
-                post.addHeader("Authorization", "Bearer " + auth.access_token);
+                post.addHeader("Authorization", "Bearer " + GlobalVariables.AccessToken);
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("PulseValue", pulse.toString()));
                 android.text.format.DateFormat df = new android.text.format.DateFormat();
@@ -179,11 +164,6 @@ public class AnalisysActivity extends Activity {
                 Log.e("AnalysisActivity", e.getMessage(), e);
             }
         }
-
-        @Override
-        protected void onCancelled() {
-
-        }
     }
 
     private class GetMeasurementTask extends AsyncTask<Void, Void, HttpResponse> {
@@ -204,9 +184,9 @@ public class AnalisysActivity extends Activity {
                 //HttpParams httpParameters = new BasicHttpParams();
                 //HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
                 HttpClient client = new DefaultHttpClient(/*httpParameters*/);
-                String url = "http://pulsometerrest.apphb.com/api/GetMeasurements/";
+                String url = GlobalVariables.BaseUrlForRest + "api/GetMeasurements/";
                 HttpPost post = new HttpPost(url);
-                post.addHeader("Authorization", "Bearer " + auth.access_token);
+                post.addHeader("Authorization", "Bearer " + GlobalVariables.AccessToken);
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 
                 android.text.format.DateFormat df = new android.text.format.DateFormat();

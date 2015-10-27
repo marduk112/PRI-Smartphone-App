@@ -11,9 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.pulsometer.Logic.AuthenticationData;
 import com.example.pulsometer.Logic.GlobalVariables;
-import com.example.pulsometer.Model.Date;
+import com.example.pulsometer.Model.AuthenticationDataViewModel;
 import com.example.pulsometer.Model.DateDTO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,10 +34,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by Szymon Wójcik on 2015-06-24.
+ * Created by Szymon WÃ³jcik on 2015-06-24.
  */
 public class HistoryActivity extends Activity implements AdapterView.OnItemClickListener {
-    private AuthenticationData auth;
+    private AuthenticationDataViewModel auth;
     private final Context context = this;
     private List<java.util.Date> history = new ArrayList<>();
     private ListView listView;
@@ -56,7 +55,7 @@ public class HistoryActivity extends Activity implements AdapterView.OnItemClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         Intent intent = getIntent();
-        auth = (AuthenticationData)intent.getSerializableExtra("authData");
+        auth = (AuthenticationDataViewModel)intent.getSerializableExtra("authData");
         System.out.println("History Token" + auth.access_token);
         listView = (ListView) findViewById(R.id.historyListView);
         listView.setOnItemClickListener(this);
@@ -81,9 +80,9 @@ public class HistoryActivity extends Activity implements AdapterView.OnItemClick
         protected HttpResponse doInBackground(Void... params) {
             try {
                 HttpClient client = new DefaultHttpClient();
-                String url = "http://pulsometerrest.apphb.com/api/GetMeasurementsDates";
+                String url = GlobalVariables.BaseUrlForRest + "/api/GetMeasurementsDates";
                 HttpGet get = new HttpGet(url);
-                get.addHeader("Authorization", "Bearer " + auth.access_token);
+                get.addHeader("Authorization", "Bearer " + GlobalVariables.AccessToken);
                 HttpResponse response = client.execute(get);
                 return response;
             } catch (Exception e) {

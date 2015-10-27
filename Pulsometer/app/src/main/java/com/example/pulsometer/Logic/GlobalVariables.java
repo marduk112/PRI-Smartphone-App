@@ -11,4 +11,6 @@ import ca.odell.glazedlists.EventList;
  */
 public class GlobalVariables {
     public static EventList<Integer> Pulses = new BasicEventList<>();
+    public static final String BaseUrlForRest = "http://pulsometerrest.apphb.com/";
+    public static String AccessToken;
 }
