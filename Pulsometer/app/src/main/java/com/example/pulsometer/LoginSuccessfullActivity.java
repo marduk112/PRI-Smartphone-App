@@ -21,15 +21,15 @@ public class LoginSuccessfullActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_successfull);
-        Bundle extras = getIntent().getExtras();
-        auth = (AuthenticationDataViewModel)extras.get("authData");
+        //Bundle extras = getIntent().getExtras();
+        //auth = (AuthenticationDataViewModel)extras.get("authData");
 
         Button button = (Button)findViewById(R.id.to_case_activity);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, CaseActivity.class);
-                intent.putExtra("authData", auth);
+//                intent.putExtra("authData", auth);
                 startActivity(intent);
                 finish();
             }

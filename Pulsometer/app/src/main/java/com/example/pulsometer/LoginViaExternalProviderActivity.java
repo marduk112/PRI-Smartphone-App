@@ -3,6 +3,7 @@ package com.example.pulsometer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,8 +49,9 @@ public class LoginViaExternalProviderActivity extends Activity {
         //webView = (WebView) findViewById(R.id.webView);
         Bundle extras = getIntent().getExtras();
         String provider = extras.getString("provider");
+        webView.getSettings().setJavaScriptEnabled(true);
         new ExternalUserLoginTask(provider, webView).execute();
-        webView.setWebViewClient(new WebViewClient(){
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 System.out.println("url " + url);
@@ -101,6 +103,9 @@ public class LoginViaExternalProviderActivity extends Activity {
                 }
                 else {
                     GlobalVariables.AccessToken = token;
+                    Intent intent = new Intent(context, LoginSuccessfullActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
 
             }catch(Exception e){
@@ -125,7 +130,7 @@ public class LoginViaExternalProviderActivity extends Activity {
                 post.addHeader("Authorization", "Bearer " + token);
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 //Email must be changed
-                nameValuePairs.add(new BasicNameValuePair("Email", "szymon2wojcik@gmail.com"));
+                nameValuePairs.add(new BasicNameValuePair("Email", "szymon@gmail.com"));
                 post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
                 HttpResponse response = client.execute(post);
                 return response;
@@ -147,7 +152,9 @@ public class LoginViaExternalProviderActivity extends Activity {
                         .setPositiveButton("OK", null)
                         .show();
                 //if (status == 200) {
-
+                Intent intent = new Intent(context, ExternalProvidersActivity.class);
+                startActivity(intent);
+                finish();
                 //}
             }catch(Exception e){
                 Log.e("Login via Google", e.getMessage(), e);
