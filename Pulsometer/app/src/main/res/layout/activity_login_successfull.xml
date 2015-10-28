@@ -25,12 +25,12 @@
             <TextView android:text="@string/hello_world" android:layout_width="351dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="0dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="50dp"
                 android:textSize="40dp"
                 android:gravity="center_horizontal"
                 android:textColor="#ffffffff" />
+            <!-- android:layout_marginLeft="0dp" -->
 
             <Button
                 android:layout_width="wrap_content"

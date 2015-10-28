@@ -346,6 +346,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     intent.putExtra("authData", auth);
                     GlobalVariables.AccessToken = auth.access_token;
                     startActivity(intent);
+                    finish();
                 }
                 else {
                     new AlertDialog.Builder(context)
