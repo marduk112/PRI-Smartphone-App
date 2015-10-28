@@ -52,7 +52,9 @@
             <Button android:id="@+id/email_sign_in_button" style="?android:textAppearanceSmall"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_marginTop="50dp" android:text="@string/action_sign_in"
-                android:textColor="#ff000000" />
+                android:textColor="#ff000000"
+                android:textStyle="bold"
+                android:textSize="18dp" />
 
             <Button
                 android:layout_width="match_parent"
@@ -61,7 +63,9 @@
                 android:id="@+id/registerButton"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
-                android:textColor="#ff000000" />
+                android:textColor="#ff000000"
+                android:textStyle="bold"
+                android:textSize="18dp" />
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +73,9 @@
                 android:id="@+id/login_via_google"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
-                android:textColor="#ff000000" />
+                android:textColor="#ff000000"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>
