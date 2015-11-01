@@ -39,7 +39,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Analisys"
+                android:text="@string/analysis"
                 android:id="@+id/AnalisysButton"
                 android:layout_marginTop="50dp"
                 android:textColor="#ff000000" />
@@ -47,7 +47,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HISTORY"
+                android:text="@string/history"
                 android:id="@+id/history"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp" />
@@ -55,7 +55,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lie detector"
+                android:text="@string/lie_detector"
                 android:id="@+id/button3"
                 android:layout_marginTop="20dp"
                 android:textColor="#ff000000" />

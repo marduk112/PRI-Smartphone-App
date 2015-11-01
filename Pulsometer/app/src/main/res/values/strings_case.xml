@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="analysis">Analysis</string>
+    <string name="history">History</string>
+    <string name="lie_detector">Lie detector</string>
+</resources>

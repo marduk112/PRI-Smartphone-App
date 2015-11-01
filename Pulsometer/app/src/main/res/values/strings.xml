@@ -21,5 +21,6 @@
     <string name="title_activity_login_via_google">LoginViaGoogleActivity</string>
     <string name="title_activity_login_via_external_provider">LoginViaExternalProviderActivity
     </string>
+    <string name="ok">Ok</string>
 
 </resources>

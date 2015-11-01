@@ -8,5 +8,4 @@ import java.util.Date;
 public class Pulse {
     public int Id;
     public int PulseValue;
-    public String UserName;
 }

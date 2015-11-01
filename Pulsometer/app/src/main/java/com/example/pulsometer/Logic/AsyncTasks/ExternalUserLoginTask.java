@@ -3,7 +3,7 @@ package com.example.pulsometer.Logic.AsyncTasks;
 import android.os.AsyncTask;
 import android.webkit.WebView;
 
-import com.example.pulsometer.Logic.GlobalVariables;
+import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.Model.ExternalProviderViewModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

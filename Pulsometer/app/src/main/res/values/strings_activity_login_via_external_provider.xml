@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="register_login_via_google_account">Register/Login via Google Account</string>
+    <string name="external_username">You must enter email for register proccess that you want to use for login via external account</string>
+</resources>

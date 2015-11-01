@@ -31,7 +31,6 @@ import java.util.HashMap;
 
 import javax.security.cert.X509Certificate;
 
-import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -44,7 +43,12 @@ import android.text.format.Time;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.pulsometer.Logic.GlobalVariables;
+import com.example.pulsometer.AnalisysActivity;
+import com.example.pulsometer.Logic.AsyncTasks.SendPulseTask;
+import com.example.pulsometer.Logic.Extensions.GlobalVariables;
+import com.example.pulsometer.Logic.Interfaces.ListListener;
+import com.example.pulsometer.Model.Date;
+import com.jjoe64.graphview.series.DataPoint;
 import com.samsung.android.sdk.SsdkUnsupportedException;
 import com.samsung.android.sdk.accessory.SA;
 import com.samsung.android.sdk.accessory.SAAgent;
@@ -205,9 +209,19 @@ public class SAPServiceProvider extends SAAgent {
 
     public class SAPServiceProviderConnection extends SASocket {
         private int mConnectionId;
-
+        private java.util.Date date = new java.util.Date();
         public SAPServiceProviderConnection() {
             super(SAPServiceProviderConnection.class.getName());
+            GlobalVariables.Pulses.setListener(new ListListener<Integer>() {
+                @Override
+                public void afterAdd(Integer item) {
+                    AnalisysActivity.series.appendData(new DataPoint(AnalisysActivity.x, item), true, 10000);
+                    AnalisysActivity.x += 0.25;
+                    if (AnalisysActivity.graph != null)
+                        AnalisysActivity.graph.getViewport().computeScroll();
+                    new SendPulseTask(item, date).execute();
+                }
+            });
         }
 
         @Override
@@ -216,24 +230,22 @@ public class SAPServiceProvider extends SAAgent {
 
         @Override
         public void onReceive(int channelId, byte[] data) {
-            Time time = new Time();
-            time.set(System.currentTimeMillis());
-            String timeStr = " " + String.valueOf(time.minute) + ":" + String.valueOf(time.second);
-            String strToUpdateUI = new String(data);
-            final String message = strToUpdateUI.concat(timeStr);
+            //Time time = new Time();
+            //time.set(System.currentTimeMillis());
+            //String timeStr = " " + String.valueOf(time.minute) + ":" + String.valueOf(time.second);
+            //String strToUpdateUI = new String(data);
+            //final String message = strToUpdateUI.concat(timeStr);
             final SAPServiceProviderConnection uHandler = mConnectionsMap.get(Integer.parseInt(String.valueOf(mConnectionId)));
             if (uHandler == null) {
                 return;
             }
             try {
                 String puls = new String(data, "UTF-8");
-                //System.out.println("Pulse " + puls);
                 GlobalVariables.Pulses.add(Integer.parseInt(puls));
-                //System.out.println("Global var " + Integer.parseInt(puls));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            new Thread(new Runnable() {
+            /*new Thread(new Runnable() {
                 public void run() {
                     try {
                         uHandler.send(CHANNEL_ID, message.getBytes());
@@ -241,7 +253,7 @@ public class SAPServiceProvider extends SAAgent {
                         e.printStackTrace();
                     }
                 }
-            }).start();
+            }).start();*/
         }
 
         @Override

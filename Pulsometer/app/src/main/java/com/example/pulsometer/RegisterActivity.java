@@ -4,37 +4,30 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.example.pulsometer.Logic.GlobalVariables;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.pulsometer.Logic.AsyncTasks.RegisterUserTask;
 
 public class RegisterActivity extends Activity {
 
     private EditText EmailView;
     private EditText PasswordView;
     private EditText ConfirmPasswordView;
-    private UserRegisterTask AuthTask = null;
+    private RegisterUserTask authTask = null;
     private View ProgressView;
     private View RegisterFormView;
+    private final RegisterActivity registerActivity = this;
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +51,7 @@ public class RegisterActivity extends Activity {
     }
 
     public void attemptLogin() {
-        if (AuthTask != null) {
+        if (authTask != null) {
             return;
         }
 
@@ -101,8 +94,9 @@ public class RegisterActivity extends Activity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             //showProgress(true);
-            AuthTask = new UserRegisterTask(email, password, confirmPassword);
-            AuthTask.execute((Void) null);
+            authTask = new RegisterUserTask(email, password, confirmPassword, authTask,
+                    registerActivity, RegisterFormView, ProgressView, getResources());
+            authTask.execute((Void) null);
         }
     }
 
@@ -116,88 +110,5 @@ public class RegisterActivity extends Activity {
         return password.length() > 4 && password.equals(confirmPassword);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-           RegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            RegisterFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    RegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            ProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            ProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    ProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            ProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            RegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    public class UserRegisterTask extends AsyncTask<Void, Void, HttpResponse> {
-
-        private final String mEmail;
-        private final String mPassword;
-        private final String mConfirmPassword;
-
-        UserRegisterTask(String email, String password, String confirmPassword) {
-            mEmail = email;
-            mPassword = password;
-            mConfirmPassword = confirmPassword;
-        }
-
-        @Override
-        protected HttpResponse doInBackground(Void... params) {
-            try {
-                HttpClient client = new DefaultHttpClient();
-                String url = GlobalVariables.BaseUrlForRest + "api/Account/Register";
-                HttpPost post = new HttpPost(url);
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                TextView resultIdText = (TextView) findViewById(R.id.email);
-                nameValuePairs.add(new BasicNameValuePair("Email", mEmail));
-                nameValuePairs.add(new BasicNameValuePair("Password", mPassword));
-                nameValuePairs.add(new BasicNameValuePair("ConfirmPassword", mConfirmPassword));
-                post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-                HttpResponse response = client.execute(post);
-                return response;
-            } catch (Exception e) {
-                Log.e("MainActivity", e.getMessage(), e);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(final HttpResponse success) {
-            AuthTask = null;
-            showProgress(false);
-
-            if (success.getStatusLine().getStatusCode() == 200) {
-                finish();
-            } else {
-                PasswordView.setError(Integer.toString(success.getStatusLine().getStatusCode()));
-                PasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            AuthTask = null;
-            showProgress(false);
-        }
-    }
 }

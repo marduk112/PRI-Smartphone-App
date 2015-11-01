@@ -35,7 +35,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OK"
+                android:text="@string/ok"
                 android:id="@+id/to_case_activity"
                 android:gravity="center_horizontal"
                 android:layout_gravity="center_horizontal"
