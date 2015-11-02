@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
+import com.example.pulsometer.Model.Pulse;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;

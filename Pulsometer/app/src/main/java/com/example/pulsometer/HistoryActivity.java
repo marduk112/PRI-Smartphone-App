@@ -13,7 +13,9 @@ import android.widget.ListView;
 import com.example.pulsometer.Logic.AsyncTasks.GetHistoryTask;
 import com.example.pulsometer.Model.AuthenticationDataViewModel;
 import com.example.pulsometer.Model.DateDTO;
+import com.example.pulsometer.Model.Pulse;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

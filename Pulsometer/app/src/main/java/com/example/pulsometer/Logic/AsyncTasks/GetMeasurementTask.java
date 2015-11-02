@@ -74,10 +74,8 @@ public class GetMeasurementTask extends AsyncTask<Void, Void, HttpResponse> {
                 StringWriter writer = new StringWriter();
                 IOUtils.copy(in, writer, "UTF-8");
                 Gson g = new Gson();
-                System.out.println("MesaurementTask: \n" + writer.toString());
                 List<Pulse> temp = g.fromJson(writer.toString(), new TypeToken<Collection<Pulse>>(){}.getType());
                 for (Pulse pulse : temp){
-                    System.out.println("Pulse " + pulse.PulseValue);
                     GlobalVariables.Pulses.add(pulse.PulseValue);
                 }
                 System.out.println("OK");

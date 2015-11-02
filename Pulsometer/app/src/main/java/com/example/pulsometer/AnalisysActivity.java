@@ -5,16 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.activeandroid.query.Select;
 import com.example.pulsometer.Logic.AsyncTasks.GetMeasurementTask;
 import com.example.pulsometer.Logic.AsyncTasks.SendPulseTask;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.Logic.Interfaces.ListListener;
 import com.example.pulsometer.Model.AuthenticationDataViewModel;
+import com.example.pulsometer.Model.Pulse;
+import com.example.pulsometer.Model.PulseSqlite;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Date;
+import java.util.List;
 
 public class AnalisysActivity extends Activity {
 
@@ -44,6 +48,8 @@ public class AnalisysActivity extends Activity {
                 x += 0.25;
                 graph.getViewport().computeScroll();
                 if (isGettingFromWatch) {
+                    PulseSqlite p = new PulseSqlite(item, date);
+                    p.save();
                     new SendPulseTask(item, date).execute();
                 }
             }
@@ -71,8 +77,16 @@ public class AnalisysActivity extends Activity {
         if (intent.getSerializableExtra("Measurement") != null) {
             isGettingFromWatch = false;
             MeasurementDate = (Date) intent.getSerializableExtra("Measurement");
-            System.out.println("MeasurementDate: " + MeasurementDate);
-            new GetMeasurementTask(auth.access_token, MeasurementDate, this).execute();
+            boolean isOffline = new Select().from(PulseSqlite.class).where("date = ?", MeasurementDate).exists();
+            if (!isOffline)
+                new GetMeasurementTask(auth.access_token, MeasurementDate, this).execute();
+            else {
+                System.out.println("offline");
+                List<PulseSqlite> pulses = new Select().from(PulseSqlite.class).where("date = ?", MeasurementDate).execute();
+                for (PulseSqlite p : pulses){
+                    GlobalVariables.Pulses.add(p.PulseValue);
+                }
+            }
         }
 
         context = this;
