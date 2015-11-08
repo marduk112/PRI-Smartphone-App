@@ -53,7 +53,7 @@ public class SendPulseTask extends AsyncTask<Void, Void, HttpResponse> {
         return null;
     }
 
-    @Override
+    /*@Override
     protected void onPostExecute(HttpResponse result) {
         try {
             if (result.getStatusLine().getStatusCode() == 201){
@@ -65,5 +65,5 @@ public class SendPulseTask extends AsyncTask<Void, Void, HttpResponse> {
         }catch(Exception e){
             Log.e("AnalysisActivity", e.getMessage(), e);
         }
-    }
+    }*/
 }

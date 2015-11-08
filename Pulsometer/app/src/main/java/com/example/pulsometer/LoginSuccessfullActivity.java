@@ -15,8 +15,7 @@ public class LoginSuccessfullActivity extends Activity {
     private final Context context = this;
 
     @Override
-     public void onBackPressed() {
-    }
+     public void onBackPressed() {}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +30,7 @@ public class LoginSuccessfullActivity extends Activity {
                 Intent intent = new Intent(context, CaseActivity.class);
                 intent.putExtra("authData", auth);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
     }

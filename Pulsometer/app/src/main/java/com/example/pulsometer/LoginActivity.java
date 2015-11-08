@@ -44,11 +44,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private static final String LOG_TAG = "PluginTracker";
     public static final String APP_TAG = "Pulsometer";
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         //super.onBackPressed();
         finish();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

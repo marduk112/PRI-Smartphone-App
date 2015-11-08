@@ -31,11 +31,11 @@ public class AnalisysActivity extends Activity {
     public static double x = 0;
     private Date date;
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         //super.onBackPressed();
         finish();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +71,9 @@ public class AnalisysActivity extends Activity {
         graph.getViewport().setYAxisBoundsManual(false);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setScrollable(true);
-        graph.getViewport().setScalable(true);
+        graph.getViewport().setScalable(false);
         graph.removeAllSeries();
+
         graph.addSeries(series);
         if (intent.getSerializableExtra("Measurement") != null) {
             isGettingFromWatch = false;

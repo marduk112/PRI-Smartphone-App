@@ -22,24 +22,14 @@ package com.example.pulsometer.Logic.sapProvider;/*
  */
 
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.util.HashMap;
-
-import javax.security.cert.X509Certificate;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.os.Binder;
 import android.os.IBinder;
-import android.text.format.Time;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -47,7 +37,6 @@ import com.example.pulsometer.AnalisysActivity;
 import com.example.pulsometer.Logic.AsyncTasks.SendPulseTask;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.Logic.Interfaces.ListListener;
-import com.example.pulsometer.Model.Date;
 import com.jjoe64.graphview.series.DataPoint;
 import com.samsung.android.sdk.SsdkUnsupportedException;
 import com.samsung.android.sdk.accessory.SA;
@@ -55,6 +44,14 @@ import com.samsung.android.sdk.accessory.SAAgent;
 import com.samsung.android.sdk.accessory.SAAuthenticationToken;
 import com.samsung.android.sdk.accessory.SAPeerAgent;
 import com.samsung.android.sdk.accessory.SASocket;
+
+import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.util.HashMap;
+
+import javax.security.cert.X509Certificate;
 
 public class SAPServiceProvider extends SAAgent {
     public static final int SERVICE_CONNECTION_RESULT_OK = 0;

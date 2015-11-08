@@ -14,7 +14,6 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -38,14 +37,16 @@ public class GetHistoryTask extends AsyncTask<Void, Void, HttpResponse> {
     private ListView listView;
     private Context context;
     private String accessToken;
+    private List<Date> historyClone;
 
-    public GetHistoryTask(String access_token, List<DateDTO> temp, List<Date> history, ArrayAdapter<Date> adapter, ListView listView, Context context) {
+    public GetHistoryTask(String access_token, List<DateDTO> temp, List<Date> history, List<Date> historyClone, ArrayAdapter<Date> adapter, ListView listView, Context context) {
         this.temp=temp;
         this.history=history;
         this.adapter=adapter;
         this.listView=listView;
         this.context=context;
         this.accessToken = access_token;
+        this.historyClone = historyClone;
     }
 
     @Override
@@ -82,6 +83,7 @@ public class GetHistoryTask extends AsyncTask<Void, Void, HttpResponse> {
                     String dateStr = date.MeasurementDate;
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                     history.add(sdf.parse(dateStr));
+                    historyClone.add(sdf.parse(dateStr));
                 }
                 Collections.sort(history);
                 // Adapter: You need three parameters 'the context, id of the layout (it will be where the data is shown),

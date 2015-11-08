@@ -9,11 +9,11 @@ import android.widget.Button;
 
 public class ExternalProvidersActivity extends Activity {
 
-    @Override
+   /* @Override
     public void onBackPressed() {
         //super.onBackPressed();
         finish();
-    }
+    }*/
     private final Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

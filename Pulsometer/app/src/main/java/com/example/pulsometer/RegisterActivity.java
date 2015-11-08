@@ -23,11 +23,11 @@ public class RegisterActivity extends Activity {
     private View RegisterFormView;
     private final RegisterActivity registerActivity = this;
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         //super.onBackPressed();
         finish();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

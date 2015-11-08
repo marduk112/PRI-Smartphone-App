@@ -35,7 +35,7 @@ public class LogoutTask extends AsyncTask<Void, Void, HttpResponse> {
         try {
             if (result.getStatusLine().getStatusCode() == 200){
                 System.out.println("OK");
-                GlobalVariables.AccessToken = "";
+                //GlobalVariables.AccessToken = "";
             }
             else {
                 System.out.println("ERROR " + result.getStatusLine().getReasonPhrase() + result.getStatusLine().getStatusCode());

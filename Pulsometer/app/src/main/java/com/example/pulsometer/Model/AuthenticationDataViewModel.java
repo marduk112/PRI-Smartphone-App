@@ -13,4 +13,8 @@ public class AuthenticationDataViewModel implements Serializable {
     public String userName;
     public Date issued;
     public Date expires;
+
+    public AuthenticationDataViewModel(String access_token) {
+        this.access_token = access_token;
+    }
 }

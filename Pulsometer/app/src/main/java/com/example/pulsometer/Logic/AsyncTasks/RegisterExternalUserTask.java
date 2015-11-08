@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.pulsometer.ExternalProvidersActivity;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.LoginViaExternalProviderActivity;
+import com.example.pulsometer.Model.AuthenticationDataViewModel;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -58,19 +59,10 @@ public class RegisterExternalUserTask extends AsyncTask<Void, Void, HttpResponse
     @Override
     protected void onPostExecute(HttpResponse result) {
         try {
-            //HttpEntity entity = result.getEntity();
-            int status = result.getStatusLine().getStatusCode();
-            if (status != 200) {
-                new AlertDialog.Builder(context)
-                        .setTitle("Error")
-                        .setMessage(/*"You're account hasn't been saved " +*/ status
-                                + "\n" + result.getStatusLine().getReasonPhrase())
-                        .setPositiveButton("OK", null)
-                        .show();
-            }
-            Intent intent = new Intent(context, ExternalProvidersActivity.class);
-            context.startActivity(intent);
-            loginViaExternalProviderActivity.finish();
+            Intent intent = new Intent(loginViaExternalProviderActivity, ExternalProvidersActivity.class);
+            intent.putExtra("authData", new AuthenticationDataViewModel(token));
+            loginViaExternalProviderActivity.startActivity(intent);
+            //loginViaExternalProviderActivity.finish();
         }catch(Exception e){
             Log.e("Login via Google", e.getMessage(), e);
         }

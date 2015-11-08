@@ -71,33 +71,37 @@ public class UserLoginTask extends AsyncTask<Void, Void, HttpResponse> {
     protected void onPostExecute(HttpResponse result) {
         try {
             HttpEntity entity = result.getEntity();
-            StatusLine status = result.getStatusLine();
-            if (status.getStatusCode() == 200) {
-                InputStream in = entity.getContent();
-                StringWriter writer = new StringWriter();
+            InputStream in = entity.getContent();
+            StringWriter writer = new StringWriter();
+            if (in != null) {
                 IOUtils.copy(in, writer, "UTF-8");
                 Gson g = new Gson();
                 AuthenticationDataViewModel auth = g.fromJson(writer.toString(), AuthenticationDataViewModel.class);
-                System.out.println("Login token " + GlobalVariables.AccessToken);
                 Intent intent = new Intent(mActivity, LoginSuccessfullActivity.class);
                 intent.putExtra("authData", auth);
                 mActivity.startActivity(intent);
                 //mActivity.finish();
             }
             else {
+                StatusLine status = result.getStatusLine();
                 new AlertDialog.Builder(mActivity)
                         .setTitle("Error")
-                        .setMessage("Authentication error\n" + status.getReasonPhrase())
+                        .setMessage("Authentication error\n" + status.getReasonPhrase() + " " + status.getStatusCode())
                         .setPositiveButton("OK", null)
                         .show();
             }
         }catch(Exception e){
             Log.e("MainActivity2", e.getMessage(), e);
+            new AlertDialog.Builder(mActivity)
+                    .setTitle("Error")
+                    .setMessage("Problem with connection")
+                    .setPositiveButton("OK", null)
+                    .show();
         }
     }
 
-    @Override
-    protected void onCancelled() {
+    //@Override
+    /*protected void onCancelled() {
         mAuthTask = null;
-    }
+    }*/
 }

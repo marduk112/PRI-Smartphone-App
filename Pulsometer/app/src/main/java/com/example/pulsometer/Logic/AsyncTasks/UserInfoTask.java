@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.LoginSuccessfullActivity;
 import com.example.pulsometer.LoginViaExternalProviderActivity;
+import com.example.pulsometer.Model.AuthenticationDataViewModel;
 import com.example.pulsometer.Model.UserInfoViewModel;
 import com.google.gson.Gson;
 
@@ -60,14 +61,16 @@ public class UserInfoTask extends AsyncTask<Void, Void, HttpResponse> {
             IOUtils.copy(in, writer, "UTF-8");
             Gson g = new Gson();
             UserInfoViewModel userInfoViewModel = g.fromJson(writer.toString(), UserInfoViewModel.class);
+            System.out.println("user registered " + userInfoViewModel.HasRegistered + " " + userInfoViewModel.Email);
             if (!userInfoViewModel.HasRegistered) {
                 new RegisterExternalUserTask(userInfoViewModel.Email, token, context, loginViaExternalProviderActivity).execute();
             }
             else {
-                GlobalVariables.AccessToken = token;
-                Intent intent = new Intent(context, LoginSuccessfullActivity.class);
-                context.startActivity(intent);
-                loginViaExternalProviderActivity.finish();
+                //GlobalVariables.AccessToken = token;
+                Intent intent = new Intent(loginViaExternalProviderActivity, LoginSuccessfullActivity.class);
+                intent.putExtra("authData", new AuthenticationDataViewModel(token));
+                loginViaExternalProviderActivity.startActivity(intent);
+                //loginViaExternalProviderActivity.finish();
             }
 
         }catch(Exception e){
