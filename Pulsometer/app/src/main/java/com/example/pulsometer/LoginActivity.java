@@ -18,6 +18,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.pulsometer.Logic.AsyncTasks.UserLoginTask;
@@ -35,14 +36,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private EditText mEmailView;
-    private EditText mPasswordView;
+    private static EditText mEmailView;
+    private static EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
     private final Context context = this;
     private static final String TRACKER_ID = "tracker.test";
     private static final String LOG_TAG = "PluginTracker";
     public static final String APP_TAG = "Pulsometer";
+    private static Button registerButton;
+    private static Button loginViaExternalProviderButton;
+    private static Button mEmailSignInButton;
+    private ProgressBar progressBar;
 
     /*@Override
     public void onBackPressed() {
@@ -70,9 +75,26 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             }
         });
 
-        //mWebView = (WebView) findViewById(R.id.);
+        registerButton = (Button) findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        loginViaExternalProviderButton = (Button) findViewById(R.id.login_via_google);
+        loginViaExternalProviderButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ExternalProvidersActivity.class);
+                //intent.putExtra("provider", "Google");
+                startActivity(intent);
+            }
+        });
+
+        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,24 +105,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        Button registerButton = (Button) findViewById(R.id.registerButton);
-        registerButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
+        progressBar = (ProgressBar) findViewById(R.id.pbHeaderProgress);
+        progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
 
-        Button loginViaExternalProviderButton = (Button) findViewById(R.id.login_via_google);
-        loginViaExternalProviderButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ExternalProvidersActivity.class);
-                //intent.putExtra("provider", "Google");
-                startActivity(intent);
-            }
-        });
+
+    public static void setVisibility(int visibility){
+        mEmailView.setVisibility(visibility);
+        mPasswordView.setVisibility(visibility);
+        mEmailSignInButton.setVisibility(visibility);
+        registerButton.setVisibility(visibility);
+        loginViaExternalProviderButton.setVisibility(visibility);
     }
 
     /**
@@ -151,7 +167,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             LoginActivity temp = this;
-            mAuthTask = new UserLoginTask(email, password, temp, getResources(), mAuthTask, mLoginFormView, mProgressView);
+            mAuthTask = new UserLoginTask(email, password, temp, progressBar);
             mAuthTask.execute((Void) null);
         }
     }

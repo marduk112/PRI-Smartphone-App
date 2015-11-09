@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.LoginActivity;
@@ -41,11 +42,19 @@ public class UserLoginTask extends AsyncTask<Void, Void, HttpResponse> {
     private UserLoginTask mAuthTask;
     private View mLoginFormView;
     private View mProgressView;
+    private ProgressBar progressBar;
 
-    public UserLoginTask(String email, String password, LoginActivity temp, Resources resources, UserLoginTask mAuthTask, View mLoginFormView, View mProgressView) {
+    public UserLoginTask(String email, String password, LoginActivity temp, ProgressBar progressBar) {
         mEmail = email;
         mPassword = password;
         mActivity = temp;
+        this.progressBar = progressBar;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        progressBar.setVisibility(View.VISIBLE);
+        LoginActivity.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -70,10 +79,13 @@ public class UserLoginTask extends AsyncTask<Void, Void, HttpResponse> {
     @Override
     protected void onPostExecute(HttpResponse result) {
         try {
+            progressBar.setVisibility(View.INVISIBLE);
+            LoginActivity.setVisibility(View.VISIBLE);
+            StatusLine status = result.getStatusLine();
             HttpEntity entity = result.getEntity();
             InputStream in = entity.getContent();
             StringWriter writer = new StringWriter();
-            if (in != null) {
+            if (status.getStatusCode() == 200) {
                 IOUtils.copy(in, writer, "UTF-8");
                 Gson g = new Gson();
                 AuthenticationDataViewModel auth = g.fromJson(writer.toString(), AuthenticationDataViewModel.class);
@@ -83,7 +95,6 @@ public class UserLoginTask extends AsyncTask<Void, Void, HttpResponse> {
                 //mActivity.finish();
             }
             else {
-                StatusLine status = result.getStatusLine();
                 new AlertDialog.Builder(mActivity)
                         .setTitle("Error")
                         .setMessage("Authentication error\n" + status.getReasonPhrase() + " " + status.getStatusCode())
