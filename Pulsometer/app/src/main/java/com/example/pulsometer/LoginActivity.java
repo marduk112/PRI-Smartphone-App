@@ -30,10 +30,7 @@ import java.util.List;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
+
 
     // UI references.
     private static EditText mEmailView;
@@ -108,6 +105,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         progressBar = (ProgressBar) findViewById(R.id.pbHeaderProgress);
         progressBar.setIndeterminate(true);
         progressBar.setVisibility(View.INVISIBLE);
+
+        System.out.println("Login Activity on create");
     }
 
 
@@ -167,8 +166,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             LoginActivity temp = this;
-            mAuthTask = new UserLoginTask(email, password, temp, progressBar);
-            mAuthTask.execute((Void) null);
+            new UserLoginTask(email, password, temp, progressBar).execute((Void) null);
         }
     }
 

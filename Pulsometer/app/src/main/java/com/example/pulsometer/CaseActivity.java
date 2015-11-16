@@ -21,7 +21,7 @@ public class CaseActivity extends Activity {
                 .setMessage("Do you want to logout?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        new LogoutTask().execute();
+                        new LogoutTask(auth.access_token).execute();
                         Intent intent = new Intent(context, LoginActivity.class);
                         startActivity(intent);
                         finish();
@@ -53,8 +53,16 @@ public class CaseActivity extends Activity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LogoutTask().execute();
                 Intent intent = new Intent(context, com.example.pulsometer.HistoryActivity.class);
+                intent.putExtra("authData", auth);
+                startActivity(intent);
+            }
+        });
+        Button button4 = (Button) findViewById(R.id.events);
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EventsActivity.class);
                 intent.putExtra("authData", auth);
                 startActivity(intent);
             }

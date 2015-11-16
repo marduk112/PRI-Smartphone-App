@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.pulsometer">
-    <!--
-    <uses-sdk
-        android:minSdkVersion="19"
-        android:targetSdkVersion="21" />
-    -->
+    package="com.example.pulsometer" >
+
     <uses-sdk
         android:minSdkVersion="19"
         android:targetSdkVersion="21" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS" />-->
+    <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS" /> -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <!--<uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />-->
+    <!--
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!--
      To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
@@ -29,22 +27,31 @@
     <uses-permission android:name="com.samsung.wmanager.APP" />
     <uses-permission android:name="com.samsung.wmanager.ENABLE_NOTIFICATION" />
 
-    <!--<android:uses-permission
+    <!--<android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+    <!--
+<android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    -->
+    <!--
+<android:uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <android:uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />-->
-
+        android:maxSdkVersion="18" />
+    -->
     <application
+        android:name="com.activeandroid.app.Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        tools:replace="android:icon"
         android:largeHeap="true"
-        android:name="com.activeandroid.app.Application">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon" >
         <activity
             android:name=".LoginActivity"
             android:configChanges="orientation|screenSize"
@@ -57,8 +64,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".Logic.sapProvider.SAPServiceProvider" />-->
 
+        <service android:name=".Logic.sapProvider.SAPServiceProvider" />
+-->
         <receiver android:name="com.samsung.android.sdk.accessory.ServiceConnectionIndicationBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.accessory.service.action.ACCESSORY_SERVICE_CONNECTION_IND" />
@@ -70,12 +78,15 @@
             </intent-filter>
         </receiver>
 
-        <meta-data android:name="AA_DB_NAME" android:value="Pulses.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="Pulses.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
         <meta-data
             android:name="AA_MODELS"
             android:value="com.example.pulsometer.Model.Pulse" />
-
         <meta-data
             android:name="AccessoryServicesLocation"
             android:value="/res/xml/sapservices.xml" />
@@ -97,39 +108,50 @@
             android:name=".LoginSuccessfullActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_login_suuccessfull"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name=".CaseActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_case"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name=".AnalisysActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_analisys"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name=".HistoryActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_history"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name=".LoginViaExternalProviderActivity"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_login_via_google" >
+            android:label="@string/title_activity_login_via_google"
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name=".ExternalProvidersActivity"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_login_via_external_provider" >
+            android:label="@string/title_activity_login_via_external_provider"
+            android:launchMode="singleTask" >
+        </activity>
+        <activity
+            android:name=".EventsActivity"
+            android:label="@string/title_activity_events"
+            android:launchMode="singleTask" >
+        </activity>
+        <activity
+            android:name=".AddEventActivity"
+            android:label="@string/title_activity_add_event"
+            android:launchMode="singleTask" >
+        </activity>
+        <activity
+            android:name=".EventsListActivity"
+            android:label="@string/title_activity_events_list"
+            android:launchMode="singleTask" >
         </activity>
     </application>
 

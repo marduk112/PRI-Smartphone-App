@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="get_all_events">Get all events</string>
+    <string name="add_new_event">Add new event</string>
+    <string name="name_of_event">Name of event (required)</string>
+    <string name="min_value_of_pulse">Min value of pulse</string>
+    <string name="max_value_of_pulse">Max value of pulse</string>
+    <string name="start_date_event">Start date event (required)</string>
+    <string name="event_duration">Event duration (required, in minutes)</string>
+    <string name="duration">Duration (required. in minutes)</string>
+    <string name="event_description">Event description</string>
+    <string name="create_event">Create event</string>
+    <string name="join_to_event">Join to event</string>
+</resources>

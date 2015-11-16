@@ -59,6 +59,14 @@
                 android:id="@+id/button3"
                 android:layout_marginTop="20dp"
                 android:textColor="#ff000000" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/events"
+                android:id="@+id/events"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal" />
         </LinearLayout>
     </ScrollView>
 

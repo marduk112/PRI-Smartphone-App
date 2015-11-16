@@ -22,5 +22,7 @@
     <string name="title_activity_login_via_external_provider">LoginViaExternalProviderActivity
     </string>
     <string name="ok">Ok</string>
-
+    <string name="title_activity_events">EventsActivity</string>
+    <string name="title_activity_add_event">AddEventActivity</string>
+    <string name="title_activity_events_list">EventsListActivity</string>
 </resources>
