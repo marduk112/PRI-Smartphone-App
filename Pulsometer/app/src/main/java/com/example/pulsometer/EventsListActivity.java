@@ -1,6 +1,8 @@
 package com.example.pulsometer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -8,7 +10,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.pulsometer.Logic.AsyncTasks.CreateEventTask;
 import com.example.pulsometer.Logic.AsyncTasks.GetAllEventsTask;
+import com.example.pulsometer.Logic.AsyncTasks.JoinToEventTask;
 import com.example.pulsometer.Model.AuthenticationDataViewModel;
 import com.example.pulsometer.Model.EventViewModel;
 import com.example.pulsometer.R;
@@ -19,8 +23,13 @@ import java.util.List;
 public class EventsListActivity extends Activity implements AdapterView.OnItemClickListener {
 
     private ListView eventsListView;
-    private List<EventViewModel> eventViewModelList = new ArrayList<>();
+    private static List<EventViewModel> eventViewModelList;
     private AuthenticationDataViewModel auth;
+    private EventsListActivity mActivity = this;
+
+    public static void setEventViewModelList(List<EventViewModel> eventViewModelList) {
+        EventsListActivity.eventViewModelList = eventViewModelList;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +47,24 @@ public class EventsListActivity extends Activity implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(this, AddEventActivity.class);
-        intent.putExtra("event", eventViewModelList.get(position));
-        intent.putExtra("readOnly", true);
-        startActivity(intent);
+        final EventViewModel eventViewModel = eventViewModelList.get(position);
+        new AlertDialog.Builder(this)
+                .setTitle("Event")
+                //To strings.xml
+                .setMessage("Name " + eventViewModel.Name
+                        + "\nDescription " + eventViewModel.Description
+                        + "\nMin value of pulse " + eventViewModel.Min
+                        + "\nMax value of pulse " + eventViewModel.Max
+                        + "\nStart date " + eventViewModel.StartDateTimeEvent
+                        + "\nEvent duration " + eventViewModel.EventDuration
+                        + "\nDuration " + eventViewModel.Duration)
+                .setPositiveButton("Join to event", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new JoinToEventTask(auth.access_token, eventViewModel.Id, mActivity).execute();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 }

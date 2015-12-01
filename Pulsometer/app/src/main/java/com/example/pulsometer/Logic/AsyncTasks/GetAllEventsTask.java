@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.pulsometer.EventsListActivity;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.Model.DateDTO;
 import com.example.pulsometer.Model.EventViewModel;
@@ -34,7 +35,7 @@ import java.util.List;
 public class GetAllEventsTask extends AsyncTask<Void, Void, HttpResponse> {
     private ListView listView;
     private String accessToken;
-    private List<EventViewModel> eventViewModelList;
+    private static List<EventViewModel> eventViewModelList;
     private Context context;
 
     public GetAllEventsTask(String access_token, ListView listView, List<EventViewModel> eventViewModelList, Context context) {
@@ -70,8 +71,10 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, HttpResponse> {
                 StringWriter writer = new StringWriter();
                 IOUtils.copy(in, writer, "UTF-8");
                 Gson g = new Gson();
+
                 eventViewModelList = g.fromJson(writer.toString(),
                         new TypeToken<Collection<EventViewModel>>(){}.getType());
+                EventsListActivity.setEventViewModelList(eventViewModelList);
 
                 for (EventViewModel eventViewModel : eventViewModelList) {
                     temp.add(eventViewModel.Name);

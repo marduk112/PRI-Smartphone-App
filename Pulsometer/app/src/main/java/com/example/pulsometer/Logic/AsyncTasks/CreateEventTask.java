@@ -45,21 +45,22 @@ public class CreateEventTask extends AsyncTask<Void, Void, HttpResponse> {
             post.addHeader("Authorization", "Bearer " + accessToken);
             List<NameValuePair> nameValuePairs = new ArrayList<>();
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-
+            //System.out.println("Name des " + eventViewModel.Name);
             nameValuePairs.add(new BasicNameValuePair("Name", eventViewModel.Name));
             nameValuePairs.add(new BasicNameValuePair("Description", eventViewModel.Description));
-            nameValuePairs.add(new BasicNameValuePair("Min", eventViewModel.Min.toString()));
-            nameValuePairs.add(new BasicNameValuePair("Max", eventViewModel.Max.toString()));
-            nameValuePairs.add(new BasicNameValuePair("StartDateTimeEvent", dateFormat.format(eventViewModel.StartDateTimeEvent)));
-            nameValuePairs.add(new BasicNameValuePair("EventDuration", eventViewModel.EventDuration.toString()));
-            nameValuePairs.add(new BasicNameValuePair("Duration", eventViewModel.Duration.toString()));
-            if (eventViewModel.Min != null && eventViewModel.Max != null)
-                nameValuePairs.add(new BasicNameValuePair("Target", Integer.toString(2)));
-            else if (eventViewModel.Max != null)
-                nameValuePairs.add(new BasicNameValuePair("Target", Integer.toString(1)));
+            //System.out.println("Min = " + eventViewModel.Min.toString());
+            nameValuePairs.add(new BasicNameValuePair("Min", Integer.toString(eventViewModel.Min)));
+            nameValuePairs.add(new BasicNameValuePair("Max", Integer.toString(eventViewModel.Max)));
+            System.out.println("event date " + eventViewModel.StartDateTimeEvent);
+            nameValuePairs.add(new BasicNameValuePair("StartDateTimeEvent", eventViewModel.StartDateTimeEvent));
+            nameValuePairs.add(new BasicNameValuePair("EventDuration", Integer.toString(eventViewModel.EventDuration)));
+            nameValuePairs.add(new BasicNameValuePair("Duration", Integer.toString(eventViewModel.Duration)));
+            //if (eventViewModel.Min != null && eventViewModel.Max != null)
+                nameValuePairs.add(new BasicNameValuePair("Target", "2"));
+            /*else if (eventViewModel.Max != null)
+                nameValuePairs.add(new BasicNameValuePair("Target", "1"));
             else
-                nameValuePairs.add(new BasicNameValuePair("Target", Integer.toString(0)));
+                nameValuePairs.add(new BasicNameValuePair("Target", "0"));*/
 
             post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
             HttpResponse response = client.execute(post);

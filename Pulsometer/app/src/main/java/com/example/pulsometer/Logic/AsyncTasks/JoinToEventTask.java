@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.pulsometer.AddEventActivity;
+import com.example.pulsometer.EventsListActivity;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 
 import org.apache.http.HttpResponse;
@@ -18,9 +19,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 public class JoinToEventTask extends AsyncTask<Void, Void, HttpResponse> {
     private String accessToken;
     private int eventId;
-    private AddEventActivity mActivity;
+    private EventsListActivity mActivity;
 
-    public JoinToEventTask(String accessToken, int eventId, AddEventActivity mActivity) {
+    public JoinToEventTask(String accessToken, int eventId, EventsListActivity mActivity) {
         this.accessToken = accessToken;
         this.eventId = eventId;
         this.mActivity = mActivity;
