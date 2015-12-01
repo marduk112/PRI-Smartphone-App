@@ -37,14 +37,12 @@
                 android:layout_height="200dip"
                 android:id="@+id/graph"/>
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="275dp"-->
-                <!--android:text="New Text"-->
-                <!--android:id="@+id/textView2"-->
-                <!--android:layout_gravity="center_vertical" />-->
-
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/analysis"
+                android:id="@+id/button5"
+                android:onClick="showAnalysisOnClick"/>
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

@@ -1,9 +1,11 @@
 package com.example.pulsometer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.activeandroid.query.Select;
 import com.example.pulsometer.Logic.AsyncTasks.GetMeasurementTask;
@@ -93,6 +95,26 @@ public class AnalisysActivity extends Activity {
         context = this;
         System.out.println("On create");
         graph.getViewport().computeScroll();
+    }
+
+    public void showAnalysisOnClick(View view) {
+        String result = "";
+        analysePulse();
+        new AlertDialog.Builder(this)
+                .setTitle("Analysis")
+                .setMessage(result)
+                .setPositiveButton("OK", null)
+                .show();
+    }
+
+    private String analysePulse() {
+        int maxPulse = 0;
+        for (Integer pulse : GlobalVariables.Pulses) {
+            if (maxPulse < pulse)
+                maxPulse = pulse;
+        }
+
+        return "max pulse = " + maxPulse;
     }
 
     /*@Override
