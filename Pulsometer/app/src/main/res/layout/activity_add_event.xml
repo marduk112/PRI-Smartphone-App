@@ -6,7 +6,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.pulsometer.AddEventActivity"
-    android:background="@drawable/tlo">
+    android:background="#ffffff">
 
     <EditText
         android:layout_width="wrap_content"
