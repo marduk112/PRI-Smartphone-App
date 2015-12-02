@@ -12,6 +12,7 @@ import com.example.pulsometer.Logic.AsyncTasks.GetMeasurementTask;
 import com.example.pulsometer.Logic.AsyncTasks.SendPulseTask;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.Logic.Interfaces.ListListener;
+import com.example.pulsometer.Logic.PulseAnalyse.AnalysePulse;
 import com.example.pulsometer.Model.AuthenticationDataViewModel;
 import com.example.pulsometer.Model.Pulse;
 import com.example.pulsometer.Model.PulseSqlite;
@@ -98,23 +99,12 @@ public class AnalisysActivity extends Activity {
     }
 
     public void showAnalysisOnClick(View view) {
-        String result = "";
-        analysePulse();
+        String result = new AnalysePulse().analysePulse();
         new AlertDialog.Builder(this)
                 .setTitle("Analysis")
                 .setMessage(result)
                 .setPositiveButton("OK", null)
                 .show();
-    }
-
-    private String analysePulse() {
-        int maxPulse = 0;
-        for (Integer pulse : GlobalVariables.Pulses) {
-            if (maxPulse < pulse)
-                maxPulse = pulse;
-        }
-
-        return "max pulse = " + maxPulse;
     }
 
     /*@Override
