@@ -5,7 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.activeandroid.query.Select;
 import com.example.pulsometer.Logic.AsyncTasks.GetMeasurementTask;
@@ -14,7 +17,6 @@ import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.Logic.Interfaces.ListListener;
 import com.example.pulsometer.Logic.PulseAnalyse.AnalysePulse;
 import com.example.pulsometer.Model.AuthenticationDataViewModel;
-import com.example.pulsometer.Model.Pulse;
 import com.example.pulsometer.Model.PulseSqlite;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -31,39 +33,26 @@ public class AnalisysActivity extends Activity {
     public static GraphView graph;
     private AuthenticationDataViewModel auth;
     private Context context;
-    public static double x = 0;
+    public double x = 0;
     private Date date;
 
-    /*@Override
+    @Override
     public void onBackPressed() {
         //super.onBackPressed();
+        if (series != null) {
+            series.resetData(new DataPoint[]{});
+        }
+        if (graph != null) {
+            graph.removeAllSeries();
+        }
         finish();
-    }*/
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        GlobalVariables.Pulses.setListener(new ListListener<Integer>() {
-            @Override
-            public void afterAdd(Integer item) {
-                series.appendData(new DataPoint(x, item), true, 10000);
-                x += 0.25;
-                graph.getViewport().computeScroll();
-                if (isGettingFromWatch) {
-                    PulseSqlite p = new PulseSqlite(item, date);
-                    p.save();
-                    new SendPulseTask(item, date).execute();
-                }
-            }
-        });
-
         setContentView(R.layout.activity_analisys);
-        //x=0;
-        date = new Date();
-        GlobalVariables.Pulses.clear();
-        Intent intent = getIntent();
-        auth = (AuthenticationDataViewModel)intent.getSerializableExtra("authData");
+
         graph = (GraphView) findViewById(R.id.graph);
         graph.getViewport().setMinY(50);
         graph.getViewport().setMaxY(100);
@@ -74,10 +63,35 @@ public class AnalisysActivity extends Activity {
         graph.getViewport().setYAxisBoundsManual(false);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setScrollable(true);
-        graph.getViewport().setScalable(false);
-        graph.removeAllSeries();
+        graph.getViewport().setScalable(true);
 
-        graph.addSeries(series);
+        if (!GlobalVariables.Pulses.isSetListener()) {
+            GlobalVariables.Pulses.setListener(new ListListener<Integer>() {
+                @Override
+                public void afterAdd(final Integer item) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            series.appendData(new DataPoint(x, item), true, 10000);
+                            x += 0.25;
+                            graph.getViewport().computeScroll();
+                            if (isGettingFromWatch) {
+                                PulseSqlite p = new PulseSqlite(item, date);
+                                p.save();
+                                new SendPulseTask(item, date, auth.access_token).execute();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        //x=0;
+        date = new Date();
+        //GlobalVariables.Pulses.getList().clear();
+        Intent intent = getIntent();
+        auth = (AuthenticationDataViewModel)intent.getSerializableExtra("authData");
+        series.resetData(new DataPoint[] {});
         if (intent.getSerializableExtra("Measurement") != null) {
             isGettingFromWatch = false;
             MeasurementDate = (Date) intent.getSerializableExtra("Measurement");
@@ -99,7 +113,8 @@ public class AnalisysActivity extends Activity {
     }
 
     public void showAnalysisOnClick(View view) {
-        String result = new AnalysePulse().analysePulse();
+        AnalysePulse analysePulse = new AnalysePulse(GlobalVariables.Pulses.getList(), 23, getResources());
+        String result = analysePulse.analysePulse();
         new AlertDialog.Builder(this)
                 .setTitle("Analysis")
                 .setMessage(result)

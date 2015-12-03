@@ -43,6 +43,7 @@
                 android:text="@string/analysis"
                 android:id="@+id/button5"
                 android:onClick="showAnalysisOnClick"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -27,9 +27,14 @@
     <uses-permission android:name="com.samsung.wmanager.APP" />
     <uses-permission android:name="com.samsung.wmanager.ENABLE_NOTIFICATION" />
 
-    <!--<android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--
+<android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    -->
     <!--
 <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -117,12 +122,6 @@
             android:launchMode="singleTask" >
         </activity>
         <activity
-            android:name=".AnalisysActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_analisys"
-            android:launchMode="singleTask" >
-        </activity>
-        <activity
             android:name=".HistoryActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_history"
@@ -152,6 +151,8 @@
             android:name=".EventsListActivity"
             android:label="@string/title_activity_events_list"
             android:launchMode="singleTask" >
+        </activity>
+        <activity android:name=".AnalisysActivity" >
         </activity>
     </application>
 

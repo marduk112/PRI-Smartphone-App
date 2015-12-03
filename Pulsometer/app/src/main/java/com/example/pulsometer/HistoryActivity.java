@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.example.pulsometer.Logic.AsyncTasks.GetHistoryTask;
 import com.example.pulsometer.Logic.Extensions.DatePickerFragment;
+import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.Model.AuthenticationDataViewModel;
 import com.example.pulsometer.Model.DateDTO;
 
@@ -59,6 +60,10 @@ public class HistoryActivity extends FragmentActivity implements AdapterView.OnI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        history.clear();
+        historyClone.clear();
+
         setContentView(R.layout.activity_history);
         listView = (ListView) findViewById(R.id.historyListView);
         listView.setOnItemClickListener(this);

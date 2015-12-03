@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="there_is_risk_of_arrhythmia">there is a risk of arrhythmia</string>
+    <string name="possible_irregularities_in_heart_rate">possible irregularities in heart rate</string>
+</resources>

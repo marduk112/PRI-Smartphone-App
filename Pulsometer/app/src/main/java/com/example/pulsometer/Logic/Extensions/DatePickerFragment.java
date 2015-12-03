@@ -34,10 +34,13 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         // Do something with the date chosen by the user
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, monthOfYear, dayOfMonth);
+        long startTime = calendar.getTimeInMillis();
         System.out.println("year " + year);
         List<Date> results = new ArrayList<>();
         for (Date date : HistoryActivity.getHistoryClone()) {
-            if (new Date(year, monthOfYear, dayOfMonth).equals(date)) {
+            if (new Date(startTime).equals(date)) {
                 results.add(date);
             }
         }

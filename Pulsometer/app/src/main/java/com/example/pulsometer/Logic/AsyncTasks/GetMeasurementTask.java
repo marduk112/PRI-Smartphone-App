@@ -1,19 +1,19 @@
 package com.example.pulsometer.Logic.AsyncTasks;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.pulsometer.AnalisysActivity;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.Model.Pulse;
+import com.example.pulsometer.Model.PulseSqlite;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -33,12 +33,12 @@ public class GetMeasurementTask extends AsyncTask<Void, Void, HttpResponse> {
 
     private final Date date;
     private String accessToken;
-    private Context context;
+    private AnalisysActivity activity;
 
-    public GetMeasurementTask(String access_token, Date date, Context context) {
+    public GetMeasurementTask(String access_token, Date date, AnalisysActivity activity) {
         this.date = date;
         this.accessToken = access_token;
-        this.context = context;
+        this.activity = activity;
     }
 
     @Override
@@ -69,7 +69,6 @@ public class GetMeasurementTask extends AsyncTask<Void, Void, HttpResponse> {
         try {
             if (result.getStatusLine().getStatusCode() == 200){
                 HttpEntity entity = result.getEntity();
-                StatusLine status = result.getStatusLine();
                 InputStream in = entity.getContent();
                 StringWriter writer = new StringWriter();
                 IOUtils.copy(in, writer, "UTF-8");
@@ -77,18 +76,22 @@ public class GetMeasurementTask extends AsyncTask<Void, Void, HttpResponse> {
                 List<Pulse> temp = g.fromJson(writer.toString(), new TypeToken<Collection<Pulse>>(){}.getType());
                 for (Pulse pulse : temp){
                     GlobalVariables.Pulses.add(pulse.PulseValue);
+                    PulseSqlite p = new PulseSqlite(pulse.PulseValue, date);
+                    p.save();
                 }
                 System.out.println("OK");
             }
             else {
-                new AlertDialog.Builder(context)
+                new AlertDialog.Builder(activity)
                         .setTitle("Error")
-                        .setMessage("Measurement error\n" + result.getStatusLine().getReasonPhrase())
+                        .setMessage("Measurement error\n" + result.getStatusLine().getStatusCode()
+                                + "\n" + result.getStatusLine().getReasonPhrase())
                         .setPositiveButton("OK", null)
                         .show();
             }
         }catch(Exception e){
-            Log.e("GetMeasurementTask", e.getMessage(), e);
+            //Log.e("GetMeasurementTask", e.getMessage(), e);
+            new GetMeasurementTask(accessToken, date, activity).execute();
         }
     }
 }

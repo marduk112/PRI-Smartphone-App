@@ -33,11 +33,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.pulsometer.AnalisysActivity;
-import com.example.pulsometer.Logic.AsyncTasks.SendPulseTask;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
-import com.example.pulsometer.Logic.Interfaces.ListListener;
-import com.jjoe64.graphview.series.DataPoint;
 import com.samsung.android.sdk.SsdkUnsupportedException;
 import com.samsung.android.sdk.accessory.SA;
 import com.samsung.android.sdk.accessory.SAAgent;
@@ -209,16 +205,7 @@ public class SAPServiceProvider extends SAAgent {
         private java.util.Date date = new java.util.Date();
         public SAPServiceProviderConnection() {
             super(SAPServiceProviderConnection.class.getName());
-            GlobalVariables.Pulses.setListener(new ListListener<Integer>() {
-                @Override
-                public void afterAdd(Integer item) {
-                    AnalisysActivity.series.appendData(new DataPoint(AnalisysActivity.x, item), true, 10000);
-                    AnalisysActivity.x += 0.25;
-                    if (AnalisysActivity.graph != null)
-                        AnalisysActivity.graph.getViewport().computeScroll();
-                    new SendPulseTask(item, date).execute();
-                }
-            });
+
         }
 
         @Override

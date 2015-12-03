@@ -25,4 +25,6 @@
     <string name="title_activity_events">EventsActivity</string>
     <string name="title_activity_add_event">AddEventActivity</string>
     <string name="title_activity_events_list">EventsListActivity</string>
+    <string name="settings">settings</string>
+    <string name="there_is_risk_of_periodic_arrhythmia">there is a risk of periodic arrhythmias</string>
 </resources>

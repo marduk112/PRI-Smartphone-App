@@ -25,10 +25,12 @@ public class SendPulseTask extends AsyncTask<Void, Void, HttpResponse> {
 
     private final Integer pulse;
     private Date date;
+    private String accessToken;
 
-    public SendPulseTask(Integer pulse, Date date) {
+    public SendPulseTask(Integer pulse, Date date, String accessToken) {
         this.pulse = pulse;
         this.date = date;
+        this.accessToken = accessToken;
     }
 
     @Override
@@ -37,12 +39,11 @@ public class SendPulseTask extends AsyncTask<Void, Void, HttpResponse> {
             HttpClient client = new DefaultHttpClient();
             String url = GlobalVariables.BaseUrlForRest + "api/Pulses";
             HttpPost post = new HttpPost(url);
-            post.addHeader("Authorization", "Bearer " + GlobalVariables.AccessToken);
+            post.addHeader("Authorization", "Bearer " + accessToken);
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("PulseValue", pulse.toString()));
             android.text.format.DateFormat df = new android.text.format.DateFormat();
             String newDate = df.format("yyyy-MM-dd'T'HH:mm:ss", date).toString();
-            System.out.println("Data " + newDate);
             nameValuePairs.add(new BasicNameValuePair("DateCreated", newDate));
             post.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
             HttpResponse response = client.execute(post);
