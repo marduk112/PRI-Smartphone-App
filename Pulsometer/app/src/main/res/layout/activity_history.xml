@@ -20,14 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            <!--<Button
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/show_date_picker"
                 android:id="@+id/button"
                 android:layout_gravity="center_horizontal"
-                android:onClick="showDatePickerDialog"/>
+                android:onClick="showDatePickerDialog"/>-->
 
             <ListView
                 android:layout_width="wrap_content"

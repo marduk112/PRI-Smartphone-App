@@ -7,6 +7,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
+import com.example.pulsometer.Logic.Interfaces.AdapterListenable;
+import com.example.pulsometer.Logic.Interfaces.AdapterListener;
+import com.example.pulsometer.Logic.Interfaces.ListListener;
+import com.example.pulsometer.Logic.Interfaces.Listenable;
 import com.example.pulsometer.Model.DateDTO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -29,7 +33,7 @@ import java.util.List;
 /**
  * Created by Szymon Wójcik on 30.10.2015.
  */
-public class GetHistoryTask extends AsyncTask<Void, Void, HttpResponse> {
+public class GetHistoryTask extends AsyncTask<Void, Void, HttpResponse> implements AdapterListenable {
 
     private List<DateDTO> temp;
     private List<Date> history;
@@ -38,6 +42,7 @@ public class GetHistoryTask extends AsyncTask<Void, Void, HttpResponse> {
     private Context context;
     private String accessToken;
     private List<Date> historyClone;
+    private AdapterListener adapterListener;
 
     public GetHistoryTask(String access_token, List<DateDTO> temp, List<Date> history, List<Date> historyClone, ArrayAdapter<Date> adapter, ListView listView, Context context) {
         this.temp=temp;
@@ -90,6 +95,8 @@ public class GetHistoryTask extends AsyncTask<Void, Void, HttpResponse> {
                 // and the array that contains the data
                 adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, history);
                 listView.setAdapter(adapter);
+                if (adapterListener != null)
+                    adapterListener.setAdapter(adapter);
 
                 System.out.println("OK");
                 System.out.println("adapter is null " + (adapter == null));
@@ -100,5 +107,10 @@ public class GetHistoryTask extends AsyncTask<Void, Void, HttpResponse> {
         }catch(Exception e){
             Log.e("HistoryActivity", e.getMessage(), e);
         }
+    }
+
+    @Override
+    public void setAdapter(AdapterListener adapter) {
+        this.adapterListener = adapter;
     }
 }

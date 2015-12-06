@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.example.pulsometer.Logic.AsyncTasks.GetHistoryTask;
 import com.example.pulsometer.Logic.Extensions.DatePickerFragment;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
+import com.example.pulsometer.Logic.Interfaces.AdapterListener;
 import com.example.pulsometer.Model.AuthenticationDataViewModel;
 import com.example.pulsometer.Model.DateDTO;
 
@@ -47,8 +48,8 @@ public class HistoryActivity extends FragmentActivity implements AdapterView.OnI
         return adapter;
     }
 
-    public static void setHistory(List<Date> history) {
-        HistoryActivity.history = history;
+    public static void setHistory(Date date) {
+        
     }
 
     /*@Override
@@ -68,7 +69,14 @@ public class HistoryActivity extends FragmentActivity implements AdapterView.OnI
         listView.setOnItemClickListener(this);
         Bundle extras = getIntent().getExtras();
         auth = (AuthenticationDataViewModel)extras.get("authData");
-        new GetHistoryTask(auth.access_token, temp, history, historyClone, adapter, listView, this).execute();
+        GetHistoryTask task = new GetHistoryTask(auth.access_token, temp, history, historyClone, adapter, listView, this);
+        task.setAdapter(new AdapterListener() {
+            @Override
+            public void setAdapter(ArrayAdapter<Date> arrayAdapter) {
+                adapter = arrayAdapter;
+            }
+        });
+        task.execute();
     }
 
     @Override
