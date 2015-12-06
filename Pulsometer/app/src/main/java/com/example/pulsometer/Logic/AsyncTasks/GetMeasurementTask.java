@@ -34,6 +34,7 @@ public class GetMeasurementTask extends AsyncTask<Void, Void, HttpResponse> {
     private final Date date;
     private String accessToken;
     private AnalisysActivity activity;
+    private static int prob = 0;
 
     public GetMeasurementTask(String access_token, Date date, AnalisysActivity activity) {
         this.date = date;
@@ -67,27 +68,38 @@ public class GetMeasurementTask extends AsyncTask<Void, Void, HttpResponse> {
     @Override
     protected void onPostExecute(HttpResponse result) {
         try {
-            if (result.getStatusLine().getStatusCode() == 200){
-                HttpEntity entity = result.getEntity();
-                InputStream in = entity.getContent();
-                StringWriter writer = new StringWriter();
-                IOUtils.copy(in, writer, "UTF-8");
-                Gson g = new Gson();
-                List<Pulse> temp = g.fromJson(writer.toString(), new TypeToken<Collection<Pulse>>(){}.getType());
-                for (Pulse pulse : temp){
-                    GlobalVariables.Pulses.add(pulse.PulseValue);
-                    PulseSqlite p = new PulseSqlite(pulse.PulseValue, date);
-                    p.save();
-                }
-                System.out.println("OK");
-            }
-            else {
+            prob++;
+            if (prob == 10) {
+                prob=0;
                 new AlertDialog.Builder(activity)
                         .setTitle("Error")
                         .setMessage("Measurement error\n" + result.getStatusLine().getStatusCode()
                                 + "\n" + result.getStatusLine().getReasonPhrase())
                         .setPositiveButton("OK", null)
                         .show();
+            } else {
+                if (result.getStatusLine().getStatusCode() == 200) {
+                    HttpEntity entity = result.getEntity();
+                    InputStream in = entity.getContent();
+                    StringWriter writer = new StringWriter();
+                    IOUtils.copy(in, writer, "UTF-8");
+                    Gson g = new Gson();
+                    List<Pulse> temp = g.fromJson(writer.toString(), new TypeToken<Collection<Pulse>>() {
+                    }.getType());
+                    for (Pulse pulse : temp) {
+                        GlobalVariables.Pulses.add(pulse.PulseValue);
+                        PulseSqlite p = new PulseSqlite(pulse.PulseValue, date);
+                        p.save();
+                    }
+                    System.out.println("OK");
+                } else {
+                    new AlertDialog.Builder(activity)
+                            .setTitle("Error")
+                            .setMessage("Measurement error\n" + result.getStatusLine().getStatusCode()
+                                    + "\n" + result.getStatusLine().getReasonPhrase())
+                            .setPositiveButton("OK", null)
+                            .show();
+                }
             }
         }catch(Exception e){
             //Log.e("GetMeasurementTask", e.getMessage(), e);

@@ -30,16 +30,7 @@
     <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--
-<android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    -->
-    <!--
-<android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    -->
+
     <!--
 <android:uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -91,7 +82,7 @@
             android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.example.pulsometer.Model.Pulse" />
+            android:value="com.example.pulsometer.Model.PulseSqlite" />
         <meta-data
             android:name="AccessoryServicesLocation"
             android:value="/res/xml/sapservices.xml" />

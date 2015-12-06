@@ -108,6 +108,6 @@ public class AddEventActivity extends FragmentActivity {
 
     public void showDatePickerDialog(View view) {
         DialogFragment newFragment = new DatePicker2Fragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+        newFragment.show(getSupportFragmentManager(), "datePicker2");
     }
 }

@@ -224,8 +224,13 @@ public class SAPServiceProvider extends SAAgent {
                 return;
             }
             try {
-                String puls = new String(data, "UTF-8");
-                GlobalVariables.Pulses.add(Integer.parseInt(puls));
+                String response = new String(data, "UTF-8");
+                System.out.println("Response from watch " + response);
+                if (response.contains("H")) {
+                    System.out.println("Data " + response.replace("H ", ""));
+                    GlobalVariables.Pulses.add(Integer.parseInt(response.replace("H ", "")));
+                    System.out.println("Pulse added");
+                }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

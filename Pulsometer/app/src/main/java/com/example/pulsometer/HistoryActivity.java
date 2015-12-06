@@ -27,7 +27,7 @@ import java.util.List;
  * Created by Szymon Wójcik on 2015-06-24.
  */
 public class HistoryActivity extends FragmentActivity implements AdapterView.OnItemClickListener {
-    private final Context context = this;
+    private final HistoryActivity context = this;
     private static List<Date> history = new ArrayList<>();
     private static List<Date> historyClone = new ArrayList<>();
     private ListView listView;
@@ -60,7 +60,6 @@ public class HistoryActivity extends FragmentActivity implements AdapterView.OnI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         history.clear();
         historyClone.clear();
 
@@ -84,6 +83,7 @@ public class HistoryActivity extends FragmentActivity implements AdapterView.OnI
     }
 
     public void showDatePickerDialog(View view) {
+        System.out.println("adapter is null " + (adapter == null));
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }

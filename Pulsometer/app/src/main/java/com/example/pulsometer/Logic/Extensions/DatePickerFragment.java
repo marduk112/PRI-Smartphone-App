@@ -37,7 +37,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, monthOfYear, dayOfMonth);
         long startTime = calendar.getTimeInMillis();
-        System.out.println("year " + year);
         List<Date> results = new ArrayList<>();
         for (Date date : HistoryActivity.getHistoryClone()) {
             if (new Date(startTime).equals(date)) {
@@ -45,6 +44,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
             }
         }
         HistoryActivity.setHistory(results);
-        HistoryActivity.getAdapter().notifyDataSetChanged();
+        if (HistoryActivity.getAdapter() != null)
+            HistoryActivity.getAdapter().notifyDataSetChanged();
     }
 }

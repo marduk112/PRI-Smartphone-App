@@ -33,7 +33,7 @@ public class GetHistoryTask extends AsyncTask<Void, Void, HttpResponse> {
 
     private List<DateDTO> temp;
     private List<Date> history;
-    private ArrayAdapter<Date> adapter;
+    private static ArrayAdapter<Date> adapter;
     private ListView listView;
     private Context context;
     private String accessToken;
@@ -92,6 +92,7 @@ public class GetHistoryTask extends AsyncTask<Void, Void, HttpResponse> {
                 listView.setAdapter(adapter);
 
                 System.out.println("OK");
+                System.out.println("adapter is null " + (adapter == null));
             }
             else {
                 System.out.println("ERROR " + result.getStatusLine().getReasonPhrase() + result.getStatusLine().getStatusCode());

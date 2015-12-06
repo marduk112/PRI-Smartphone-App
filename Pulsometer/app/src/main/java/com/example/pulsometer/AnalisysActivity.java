@@ -29,22 +29,22 @@ public class AnalisysActivity extends Activity {
 
     private Date MeasurementDate;
     public static boolean isGettingFromWatch = true;
-    public static LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {});
+    public static LineGraphSeries<DataPoint> series;
     public static GraphView graph;
     private AuthenticationDataViewModel auth;
     private Context context;
-    public double x = 0;
+    private static double x = 0;
     private Date date;
 
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        if (series != null) {
+        /*if (series != null) {
             series.resetData(new DataPoint[]{});
         }
         if (graph != null) {
             graph.removeAllSeries();
-        }
+        }*/
         finish();
     }
 
@@ -54,6 +54,7 @@ public class AnalisysActivity extends Activity {
         setContentView(R.layout.activity_analisys);
 
         graph = (GraphView) findViewById(R.id.graph);
+        graph.removeAllSeries();
         graph.getViewport().setMinY(50);
         graph.getViewport().setMaxY(100);
         //graph.setBackground();
@@ -64,6 +65,10 @@ public class AnalisysActivity extends Activity {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setScrollable(true);
         graph.getViewport().setScalable(true);
+        series = new LineGraphSeries<>(new DataPoint[]{});
+        series.resetData(new DataPoint[]{});
+        graph.addSeries(series);
+        GlobalVariables.Pulses.getList().clear();
 
         if (!GlobalVariables.Pulses.isSetListener()) {
             GlobalVariables.Pulses.setListener(new ListListener<Integer>() {
@@ -85,14 +90,12 @@ public class AnalisysActivity extends Activity {
                 }
             });
         }
-
-        //x=0;
         date = new Date();
-        //GlobalVariables.Pulses.getList().clear();
         Intent intent = getIntent();
         auth = (AuthenticationDataViewModel)intent.getSerializableExtra("authData");
-        series.resetData(new DataPoint[] {});
+        //series.resetData(new DataPoint[] {});
         if (intent.getSerializableExtra("Measurement") != null) {
+            x=0;
             isGettingFromWatch = false;
             MeasurementDate = (Date) intent.getSerializableExtra("Measurement");
             boolean isOffline = new Select().from(PulseSqlite.class).where("date = ?", MeasurementDate).exists();
@@ -112,14 +115,33 @@ public class AnalisysActivity extends Activity {
         graph.getViewport().computeScroll();
     }
 
+
+
     public void showAnalysisOnClick(View view) {
-        AnalysePulse analysePulse = new AnalysePulse(GlobalVariables.Pulses.getList(), 23, getResources());
-        String result = analysePulse.analysePulse();
-        new AlertDialog.Builder(this)
-                .setTitle("Analysis")
-                .setMessage(result)
-                .setPositiveButton("OK", null)
-                .show();
+        if (!GlobalVariables.Pulses.getList().isEmpty()) {
+            AnalysePulse analysePulse = new AnalysePulse(GlobalVariables.Pulses.getList(), 23, getResources());
+            String result = analysePulse.analysePulse();
+            new AlertDialog.Builder(this)
+                    .setTitle("Analysis")
+                    .setMessage(result)
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
+        else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Analysis")
+                    .setMessage("No data")
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
+    }
+
+    public void refreshGraphOnClick(View view) {
+        x=0;
+        graph.removeAllSeries();
+        series = new LineGraphSeries<>(new DataPoint[]{});
+        graph.addSeries(series);
+        x=0;
     }
 
     /*@Override

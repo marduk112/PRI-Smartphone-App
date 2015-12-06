@@ -3,4 +3,5 @@
 
     <string name="there_is_risk_of_arrhythmia">there is a risk of arrhythmia</string>
     <string name="possible_irregularities_in_heart_rate">possible irregularities in heart rate</string>
+    <string name="refresh">refresh</string>
 </resources>

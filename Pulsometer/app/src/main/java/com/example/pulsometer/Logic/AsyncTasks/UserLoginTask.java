@@ -27,6 +27,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, HttpResponse> {
     private View mLoginFormView;
     private View mProgressView;
     private ProgressBar progressBar;
+    private static int prob = 0;
 
     public UserLoginTask(String email, String password, LoginActivity temp, ProgressBar progressBar) {
         mEmail = email;
@@ -71,7 +73,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, HttpResponse> {
             HttpResponse response = client.execute(post);
             return response;
         } catch (Exception e) {
-            Log.e("MainActivity", e.getMessage(), e);
+            Log.e("Login", e.getMessage(), e);
         }
         return null;
     }
@@ -79,35 +81,40 @@ public class UserLoginTask extends AsyncTask<Void, Void, HttpResponse> {
     @Override
     protected void onPostExecute(HttpResponse result) {
         try {
-            progressBar.setVisibility(View.INVISIBLE);
-            LoginActivity.setVisibility(View.VISIBLE);
-            StatusLine status = result.getStatusLine();
-            HttpEntity entity = result.getEntity();
-            InputStream in = entity.getContent();
-            StringWriter writer = new StringWriter();
-            if (status.getStatusCode() == 200) {
-                IOUtils.copy(in, writer, "UTF-8");
-                Gson g = new Gson();
-                AuthenticationDataViewModel auth = g.fromJson(writer.toString(), AuthenticationDataViewModel.class);
-                Intent intent = new Intent(mActivity, LoginSuccessfullActivity.class);
-                intent.putExtra("authData", auth);
-                mActivity.startActivity(intent);
-                //mActivity.finish();
-            }
-            else {
+            prob++;
+            if (prob == 10) {
+                prob=0;
                 new AlertDialog.Builder(mActivity)
                         .setTitle("Error")
-                        .setMessage("Authentication error\n" + status.getReasonPhrase() + " " + status.getStatusCode())
+                        .setMessage("Problem with connection")
                         .setPositiveButton("OK", null)
                         .show();
+            } else {
+                progressBar.setVisibility(View.INVISIBLE);
+                LoginActivity.setVisibility(View.VISIBLE);
+                StatusLine status = result.getStatusLine();
+                HttpEntity entity = result.getEntity();
+                InputStream in = entity.getContent();
+                StringWriter writer = new StringWriter();
+                if (status.getStatusCode() == 200) {
+                    IOUtils.copy(in, writer, "UTF-8");
+                    Gson g = new Gson();
+                    AuthenticationDataViewModel auth = g.fromJson(writer.toString(), AuthenticationDataViewModel.class);
+                    Intent intent = new Intent(mActivity, LoginSuccessfullActivity.class);
+                    intent.putExtra("authData", auth);
+                    mActivity.startActivity(intent);
+                    //mActivity.finish();
+                } else {
+                    new AlertDialog.Builder(mActivity)
+                            .setTitle("Error")
+                            .setMessage("Authentication error\n" + status.getReasonPhrase() + " " + status.getStatusCode())
+                            .setPositiveButton("OK", null)
+                            .show();
+                }
             }
         }catch(Exception e){
-            Log.e("MainActivity2", e.getMessage(), e);
-            new AlertDialog.Builder(mActivity)
-                    .setTitle("Error")
-                    .setMessage("Problem with connection")
-                    .setPositiveButton("OK", null)
-                    .show();
+            Log.e("Login", e.getMessage(), e);
+            new UserLoginTask(mEmail, mPassword, mActivity, progressBar).execute();
         }
     }
 
