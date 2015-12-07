@@ -53,6 +53,29 @@
                 android:layout_gravity="bottom"
                 android:onClick="refreshGraphOnClick"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/ageTextView"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.90"
+                android:visibility="visible" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekBar"
+                android:layout_gravity="bottom"
+                android:max="100"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="31dp"
+                android:id="@+id/spinner"
+                android:textSize="20sp"
+                android:layout_gravity="bottom" />
+
         </LinearLayout>
     </ScrollView>
 

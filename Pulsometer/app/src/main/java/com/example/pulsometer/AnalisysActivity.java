@@ -7,8 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.activeandroid.query.Select;
 import com.example.pulsometer.Logic.AsyncTasks.GetMeasurementTask;
@@ -21,6 +25,8 @@ import com.example.pulsometer.Model.PulseSqlite;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import org.w3c.dom.Text;
 
 import java.util.Date;
 import java.util.List;
@@ -35,6 +41,10 @@ public class AnalisysActivity extends Activity {
     private Context context;
     private static double x = 0;
     private Date date;
+    private SeekBar seekBar;
+    private TextView ageTextView;
+    private Spinner spinner;
+    private String activity;
 
     @Override
     public void onBackPressed() {
@@ -54,6 +64,15 @@ public class AnalisysActivity extends Activity {
         setContentView(R.layout.activity_analisys);
 
         graph = (GraphView) findViewById(R.id.graph);
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
+        ageTextView = (TextView) findViewById(R.id.ageTextView);
+        spinner = (Spinner) findViewById(R.id.spinner);
+
+        final String[] activites = new String[]{"rest", "walk", "run"};
+        activity = activites[0];
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, activites);
+        spinner.setAdapter(adapter);
+
         graph.removeAllSeries();
         graph.getViewport().setMinY(50);
         graph.getViewport().setMaxY(100);
@@ -113,13 +132,43 @@ public class AnalisysActivity extends Activity {
         context = this;
         System.out.println("On create");
         graph.getViewport().computeScroll();
+        ageTextView.setText("20");
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                ageTextView.setText(Integer.toString(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                activity = activites[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 
 
     public void showAnalysisOnClick(View view) {
         if (!GlobalVariables.Pulses.getList().isEmpty()) {
-            AnalysePulse analysePulse = new AnalysePulse(GlobalVariables.Pulses.getList(), 23, getResources());
+            int age = Integer.parseInt(ageTextView.getText().toString());
+            AnalysePulse analysePulse = new AnalysePulse(GlobalVariables.Pulses.getList(), age, getResources(), activity);
             String result = analysePulse.analysePulse();
             new AlertDialog.Builder(this)
                     .setTitle("Analysis")
@@ -137,11 +186,11 @@ public class AnalisysActivity extends Activity {
     }
 
     public void refreshGraphOnClick(View view) {
-        x=0;
+        /*x=0;
         graph.removeAllSeries();
         series = new LineGraphSeries<>(new DataPoint[]{});
         graph.addSeries(series);
-        x=0;
+        x=0;*/
     }
 
     /*@Override

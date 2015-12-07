@@ -89,6 +89,8 @@ public class UserLoginTask extends AsyncTask<Void, Void, HttpResponse> {
                         .setMessage("Problem with connection")
                         .setPositiveButton("OK", null)
                         .show();
+                progressBar.setVisibility(View.INVISIBLE);
+                LoginActivity.setVisibility(View.VISIBLE);
             } else {
                 progressBar.setVisibility(View.INVISIBLE);
                 LoginActivity.setVisibility(View.VISIBLE);

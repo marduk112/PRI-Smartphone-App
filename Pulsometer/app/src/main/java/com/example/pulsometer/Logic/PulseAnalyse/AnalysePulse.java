@@ -14,11 +14,13 @@ public class AnalysePulse {
     private ArrayList<Integer> pulses;
     private int age;
     private Resources resources;
+    private String activity;
 
-    public AnalysePulse(ArrayList<Integer> pulses, int age, Resources resources) {
+    public AnalysePulse(ArrayList<Integer> pulses, int age, Resources resources, String activity) {
         this.pulses = pulses;
         this.age = age;
         this.resources = resources;
+        this.activity = activity;
     }
 
     public String analysePulse() {
@@ -26,10 +28,36 @@ public class AnalysePulse {
 
         stringBuilder.append("max pulse = " + getMaxPulse() +
                 "\nmin pulse = " + getMinPulse() + "\n");
-        if (isPulseBelow60())
-            stringBuilder.append(resources.getString(R.string.there_is_risk_of_periodic_arrhythmia) + "\n");
-        if (isPulseBelow60() || (isPulseAbove90() && !isYoung()))
-            stringBuilder.append(resources.getString(R.string.possible_irregularities_in_heart_rate) + "\n");
+        stringBuilder.append("pulse amplitude " + (getMaxPulse() - getMinPulse()) + "\n");
+        if (activity.equals("rest")) {
+            if (isChildren() && !(getMinPulse() >= 80 && getMaxPulse() <= 120))
+                stringBuilder.append("not your average pulse\n");
+            if (isYoung() && !(getMinPulse() >= 65 && getMaxPulse() <= 105))
+                stringBuilder.append("not your average pulse\n");
+            if (isAdult() && !(getMinPulse() >= 50 && getMaxPulse() <= 90))
+                stringBuilder.append("not your average pulse\n");
+            if (isOldMan() && !(getMinPulse() >= 40 && getMaxPulse() <= 80))
+                stringBuilder.append("not your average pulse\n");
+            if (isPulseBelow60())
+                stringBuilder.append(resources.getString(R.string.there_is_risk_of_periodic_arrhythmia) + "\n");
+            if (isPulseBelow60() || (isPulseAbove90() && !isYoung()))
+                stringBuilder.append(resources.getString(R.string.possible_irregularities_in_heart_rate) + "\n");
+        } else if (activity.equals("walk") || activity.equals("run")) {
+            double tanaka = (208 - (0.7 * age));
+            double miller = (217 - (0.85 * age));
+            double londree = (206.3 - (0.711 * age));
+            double oakland = (206.9 - (0.67 * age));
+            double average = (tanaka + miller + londree + oakland) / 4;
+            stringBuilder.append("maximum allowable pulse (Tanaka formula) " + tanaka + "\n");
+            stringBuilder.append("maximum allowable pulse (Miller AT al formula) " + miller + "\n");
+            stringBuilder.append("maximum allowable pulse (Londree and Moeschburger formula) " + londree + "\n");
+            stringBuilder.append("maximum allowable pulse (from Oakland University formula) " + oakland + "\n");
+            stringBuilder.append("maximum allowable pulse (average) " + average + "\n");
+        } else if (activity.equals("walk")) {
+
+        } else if (activity.equals("run")) {
+
+        }
 
         return stringBuilder.toString();
     }
@@ -50,7 +78,32 @@ public class AnalysePulse {
         return getMaxPulse() > 90;
     }
 
+    private boolean isPulsusRegularis() {
+        boolean isPulsusRegularis = false;
+        for (Integer pulse : pulses) {
+
+        }
+
+        return isPulsusRegularis;
+    }
+
     private boolean isYoung() {
         return age <= 35;
+    }
+
+    private boolean isChildren(){
+        return age < 18;
+    }
+
+    private boolean isYouth() {
+        return age >= 18 && age < 35;
+    }
+
+    private boolean isAdult() {
+        return age >= 35 && age < 65;
+    }
+
+    private boolean isOldMan() {
+        return age >= 65;
     }
 }
