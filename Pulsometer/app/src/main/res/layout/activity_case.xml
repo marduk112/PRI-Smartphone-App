@@ -40,7 +40,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/analysis"
+                android:background="@drawable/button"
                 android:id="@+id/AnalisysButton"
+
                 android:layout_marginTop="50dp"
                 android:textColor="#ff000000" />
 
@@ -48,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/history"
+                android:background="@drawable/button"
                 android:id="@+id/history"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp" />
@@ -56,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lie_detector"
+                android:background="@drawable/button"
                 android:id="@+id/button3"
                 android:layout_marginTop="20dp"
                 android:textColor="#ff000000" />
@@ -64,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/events"
+                android:background="@drawable/button"
                 android:id="@+id/events"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center_horizontal" />

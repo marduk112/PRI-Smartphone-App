@@ -57,7 +57,9 @@
 
             <Button android:id="@+id/email_sign_in_button" style="?android:textAppearanceSmall"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="50dp" android:text="@string/action_sign_in"
+                android:layout_marginTop="50dp"
+                android:text="@string/action_sign_in"
+                android:background="@drawable/button"
                 android:textColor="#ff000000"
                 android:textStyle="bold"
                 android:textSize="18dp" />
@@ -66,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/register"
+                android:background="@drawable/button"
                 android:id="@+id/registerButton"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
@@ -76,6 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/login_via_external_provider"
+                android:background="@drawable/button"
                 android:id="@+id/login_via_google"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
