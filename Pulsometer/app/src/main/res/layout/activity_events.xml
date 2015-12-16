@@ -8,6 +8,18 @@
     tools:context="com.example.pulsometer.EventsActivity"
     android:background="@drawable/tlo">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Events Screen"
+        android:id="@+id/Text"
+        android:layout_gravity="center_horizontal"
+        android:textSize="40dp"
+        android:layout_marginTop="54dp"
+        android:textColor="#ffffffff"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,17 +28,20 @@
         android:id="@+id/button2"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="150dp"
         android:onClick="toAllEventsActivityOnClick"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="@string/add_new_event"
         android:background="@drawable/button"
         android:id="@+id/button4"
         android:layout_below="@+id/button2"
         android:layout_centerHorizontal="true"
         android:onClick="toAddEventActivityOnClick"/>
+
+
 
 </RelativeLayout>

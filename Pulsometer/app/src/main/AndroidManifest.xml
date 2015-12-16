@@ -145,6 +145,10 @@
         </activity>
         <activity android:name=".AnalisysActivity" >
         </activity>
+        <activity
+            android:name=".PedometerActivity"
+            android:label="@string/title_activity_pedometer" >
+        </activity>
     </application>
 
 </manifest>

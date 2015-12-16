@@ -58,6 +58,15 @@ public class CaseActivity extends Activity {
                 startActivity(intent);
             }
         });
+        Button button3 = (Button)findViewById(R.id.PedometerButton);
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PedometerActivity.class);
+                intent.putExtra("authData", auth);
+                startActivity(intent);
+            }
+        });
         Button button4 = (Button) findViewById(R.id.events);
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
