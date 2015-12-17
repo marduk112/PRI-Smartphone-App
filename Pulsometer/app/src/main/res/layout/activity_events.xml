@@ -25,11 +25,10 @@
         android:layout_height="wrap_content"
         android:text="@string/get_all_events"
         android:background="@drawable/button"
-        android:id="@+id/button2"
+        android:id="@+id/all_events"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:onClick="toAllEventsActivityOnClick"/>
+        android:layout_marginTop="150dp"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -37,10 +36,10 @@
         android:layout_marginTop="30dp"
         android:text="@string/add_new_event"
         android:background="@drawable/button"
-        android:id="@+id/button4"
-        android:layout_below="@+id/button2"
+        android:id="@+id/add_events"
+        android:layout_below="@+id/all_events"
         android:layout_centerHorizontal="true"
-        android:onClick="toAddEventActivityOnClick"/>
+        />
 
 
 

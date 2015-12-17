@@ -70,7 +70,7 @@ public class AnalisysActivity extends Activity {
 
         final String[] activites = new String[]{"rest", "walk", "run"};
         activity = activites[0];
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, activites);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_style, activites);
         spinner.setAdapter(adapter);
 
         graph.removeAllSeries();
@@ -132,11 +132,11 @@ public class AnalisysActivity extends Activity {
         context = this;
         System.out.println("On create");
         graph.getViewport().computeScroll();
-        ageTextView.setText("20");
+        ageTextView.setText("Your Age: 20");
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                ageTextView.setText(Integer.toString(progress));
+                ageTextView.setText("Your Age: " + Integer.toString(progress));
             }
 
             @Override
