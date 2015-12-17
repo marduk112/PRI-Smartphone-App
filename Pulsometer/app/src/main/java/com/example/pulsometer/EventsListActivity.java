@@ -53,14 +53,13 @@ public class EventsListActivity extends Activity implements AdapterView.OnItemCl
                 //To strings.xml
                 .setMessage("Name " + eventViewModel.Name
                         + "\nDescription " + eventViewModel.Description
-                        + "\nMin value of pulse " + eventViewModel.Min
-                        + "\nMax value of pulse " + eventViewModel.Max
+                        + "\nNumber of steps " + eventViewModel.StepsNumber
                         + "\nStart date " + eventViewModel.StartDateTimeEvent
-                        + "\nEvent duration " + eventViewModel.EventDuration
-                        + "\nDuration " + eventViewModel.Duration)
+                        + "\nEnd date " + eventViewModel.EndDateTimeEvent)
                 .setPositiveButton("Join to event", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        eventViewModel.save();
                         new JoinToEventTask(auth.access_token, eventViewModel.Id, mActivity).execute();
                     }
                 })

@@ -12,4 +12,5 @@
     <string name="create_event">Create event</string>
     <string name="join_to_event">Join to event</string>
     <string name="set_date">Set date</string>
+    <string name="steps_number">Steps number</string>
 </resources>

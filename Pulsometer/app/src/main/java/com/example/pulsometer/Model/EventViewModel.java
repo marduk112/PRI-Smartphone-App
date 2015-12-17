@@ -1,5 +1,9 @@
 package com.example.pulsometer.Model;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,29 +11,28 @@ import java.util.Date;
 /**
  * Created by Szymon Wójcik on 16.11.2015.
  */
-public class EventViewModel implements Serializable {
+@Table(name = "Events")
+public class EventViewModel extends Model implements Serializable {
+    @Column(name = "id")
     public int Id;
+    @Column(name = "name")
     public String Name;
+    @Column(name = "description")
     public String Description;
-    public int Min;
-    public int Max;
+    @Column(name = "stepsNumber")
+    public int StepsNumber;
+    @Column(name = "startDateTimeEvent")
     public String StartDateTimeEvent;
-    public int EventDuration;
-    public int Duration;
-    //0-Min, 1-Max, 2-Between
-    public int Target;
+    @Column(name = "endDateTimeEvent")
+    public String EndDateTimeEvent;
 
-    public EventViewModel(String name, String description, int min, int max, Date startDateTimeEvent,
-                          int eventDuration, int duration) {
+    public EventViewModel(String name, String description, int stepsNumber, Date startDateTimeEvent, Date endDateTimeEvent) {
         Name = name;
         Description = description;
-        Min = min;
-        Max = max;
+        StepsNumber = stepsNumber;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        String newDate = dateFormat.format(startDateTimeEvent);
-        StartDateTimeEvent = newDate;
-        EventDuration = eventDuration;
-        Duration = duration;
+        StartDateTimeEvent = dateFormat.format(startDateTimeEvent);
+        EndDateTimeEvent = dateFormat.format(endDateTimeEvent);
     }
 }
 

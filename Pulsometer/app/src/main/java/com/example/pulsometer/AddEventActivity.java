@@ -31,16 +31,13 @@ public class AddEventActivity extends FragmentActivity {
 
     private EditText nameEditText;
     private EditText descriptionEditText;
-    private EditText minEditText;
-    private EditText maxEditText;
-    private EditText startDateEventEditText;
-    private EditText eventDurationEditText;
-    private EditText durationEditText;
+    private EditText stepsNumberEditText;
     private AddEventActivity mActivity = this;
 
     private AuthenticationDataViewModel auth;
 
     private static Date startDateEvent;
+    private static Date endDateEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,24 +46,17 @@ public class AddEventActivity extends FragmentActivity {
 
         nameEditText = (EditText) findViewById(R.id.name_of_event);
         descriptionEditText = (EditText) findViewById(R.id.event_description);
-        minEditText = (EditText) findViewById(R.id.min_value_of_pulse);
-        maxEditText = (EditText) findViewById(R.id.max_value_of_pulse);
-        //startDateEventEditText = (EditText) findViewById(R.id.start_date_event);
-        eventDurationEditText = (EditText) findViewById(R.id.event_duration);
-        durationEditText = (EditText) findViewById(R.id.duration);
+        stepsNumberEditText = (EditText) findViewById(R.id.steps_number);
 
         Intent intent = getIntent();
-
-
-            auth = (AuthenticationDataViewModel)intent.getSerializableExtra("authData");
-            Button button = (Button) findViewById(R.id.create_event);
-            button.setOnClickListener(new View.OnClickListener() {
+        auth = (AuthenticationDataViewModel)intent.getSerializableExtra("authData");
+        Button button = (Button) findViewById(R.id.create_event);
+        button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     addNewEventOnClick();
                 }
             });
-
     }
 
     public static Date getStartDateEvent() {
@@ -76,16 +66,22 @@ public class AddEventActivity extends FragmentActivity {
     public static void setStartDateEvent(Date startDateEvent) {
         AddEventActivity.startDateEvent = startDateEvent;
     }
+    public static Date getEndDateEvent() {
+        return endDateEvent;
+    }
+
+    public static void setEndDateEvent(Date endDateEvent) {
+        AddEventActivity.endDateEvent = endDateEvent;
+    }
 
     public void addNewEventOnClick() {
         try {
             final EventViewModel eventViewModel = new EventViewModel(nameEditText.getText().toString(),
                     descriptionEditText.getText().toString(),
-                    Integer.parseInt(minEditText.getText().toString()),
-                    Integer.parseInt(maxEditText.getText().toString()),
+                    Integer.parseInt(stepsNumberEditText.getText().toString()),
                     startDateEvent,
-                    Integer.parseInt(eventDurationEditText.getText().toString()),
-                    Integer.parseInt(durationEditText.getText().toString()));
+                    endDateEvent
+                    );
             new AlertDialog.Builder(this)
                             .setTitle("")
                             .setMessage("Add new Event?")
@@ -108,6 +104,17 @@ public class AddEventActivity extends FragmentActivity {
 
     public void showDatePickerDialog(View view) {
         DialogFragment newFragment = new DatePicker2Fragment();
+        Bundle args = new Bundle();
+        args.putString("date", "start");
+        newFragment.setArguments(args);
+        newFragment.show(getSupportFragmentManager(), "datePicker2");
+    }
+
+    public void showDatePickerDialog2(View view) {
+        DialogFragment newFragment = new DatePicker2Fragment();
+        Bundle args = new Bundle();
+        args.putString("date", "end");
+        newFragment.setArguments(args);
         newFragment.show(getSupportFragmentManager(), "datePicker2");
     }
 }

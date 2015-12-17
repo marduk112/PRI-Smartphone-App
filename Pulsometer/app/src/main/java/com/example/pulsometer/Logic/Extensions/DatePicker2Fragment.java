@@ -19,6 +19,8 @@ import java.util.List;
  */
 public class DatePicker2Fragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
+    private boolean setStartDate = false;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
@@ -36,7 +38,14 @@ public class DatePicker2Fragment extends DialogFragment implements DatePickerDia
         // Do something with the date chosen by the user
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, monthOfYear, dayOfMonth);
-        long startTime = calendar.getTimeInMillis();
-        AddEventActivity.setStartDateEvent(new Date(startTime));
+        long time = calendar.getTimeInMillis();
+        Bundle args = getArguments();
+        if (args.getString("date").equals("start")) {
+            setStartDate = true;
+        }
+        if (setStartDate)
+            AddEventActivity.setStartDateEvent(new Date(time));
+        else
+            AddEventActivity.setEndDateEvent(new Date(time));
     }
 }

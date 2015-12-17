@@ -45,8 +45,8 @@ public class JoinToEventTask extends AsyncTask<Void, Void, HttpResponse> {
     @Override
     protected void onPostExecute(HttpResponse result) {
         try {
-            if (result.getStatusLine().getStatusCode() == 200){
-                System.out.println("OK");
+            if (result.getStatusLine().getStatusCode() == 201){
+
                 new AlertDialog.Builder(mActivity)
                         .setTitle("")
                         .setMessage("You joined to event with id " + eventId)

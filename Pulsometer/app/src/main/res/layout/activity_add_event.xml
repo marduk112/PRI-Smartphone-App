@@ -25,7 +25,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/min_value_of_pulse"
+        android:id="@+id/steps_number"
         android:inputType="numberDecimal"
         android:ems="10"
         android:layout_below="@+id/name_of_event"
@@ -33,22 +33,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="@string/min_value_of_pulse"
-        android:editable="true"
-        android:enabled="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/max_value_of_pulse"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:layout_below="@+id/min_value_of_pulse"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:hint="@string/max_value_of_pulse"
+        android:hint="@string/steps_number"
         android:editable="true"
         android:enabled="true" />
 
@@ -56,39 +41,17 @@
         android:id="@+id/start_date_event"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/max_value_of_pulse"
+        android:layout_below="@+id/steps_number"
         android:hint="@string/set_date"
         android:onClick="showDatePickerDialog"/>
 
-    <EditText
+    <Button
+        android:id="@+id/end_date_event"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/event_duration"
-        android:inputType="numberDecimal"
-        android:ems="10"
         android:layout_below="@+id/start_date_event"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:hint="@string/event_duration"
-        android:editable="true"
-        android:enabled="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/duration"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:layout_below="@+id/event_duration"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:hint="@string/duration"
-        android:editable="true"
-        android:enabled="true" />
+        android:hint="@string/set_date"
+        android:onClick="showDatePickerDialog2"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -99,7 +62,7 @@
         android:hint="@string/event_description"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/duration"
+        android:layout_below="@+id/end_date_event"
         android:layout_above="@+id/create_event"
         android:layout_alignRight="@+id/create_event"
         android:layout_alignEnd="@+id/create_event"
