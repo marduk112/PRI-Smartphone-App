@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -58,8 +61,71 @@ public class AnalisysActivity extends Activity {
         finish();
     }
 
+
+    private Button show_analysis;
+    private Button refresh;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //button
+        final Animation animButton = AnimationUtils.loadAnimation(this, R.anim.anim_button);
+        animButton.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (!GlobalVariables.Pulses.getList().isEmpty()) {
+                    int age = Integer.parseInt(ageTextView.getText().toString());
+                    AnalysePulse analysePulse = new AnalysePulse(GlobalVariables.Pulses.getList(), age, getResources(), activity);
+                    String result = analysePulse.analysePulse();
+                    new AlertDialog.Builder(context)
+                            .setTitle("Analysis")
+                            .setMessage(result)
+                            .setPositiveButton("OK", null)
+                            .show();
+                }
+                else {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Analysis")
+                            .setMessage("No data")
+                            .setPositiveButton("OK", null)
+                            .show();
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        //button2
+        final Animation animButton2 = AnimationUtils.loadAnimation(this, R.anim.anim_button);
+        animButton2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                 /*x=0;
+                graph.removeAllSeries();
+                series = new LineGraphSeries<>(new DataPoint[]{});
+                graph.addSeries(series);
+                x=0;*/
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analisys);
 
@@ -161,37 +227,34 @@ public class AnalisysActivity extends Activity {
 
             }
         });
+
+        show_analysis = (Button) findViewById(R.id.show_analysis);
+        refresh = (Button) findViewById(R.id.refresh);
+
+        show_analysis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(animButton);
+            }
+        });
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(animButton2);
+            }
+        });
     }
 
 
 
-    public void showAnalysisOnClick(View view) {
-        if (!GlobalVariables.Pulses.getList().isEmpty()) {
-            int age = Integer.parseInt(ageTextView.getText().toString());
-            AnalysePulse analysePulse = new AnalysePulse(GlobalVariables.Pulses.getList(), age, getResources(), activity);
-            String result = analysePulse.analysePulse();
-            new AlertDialog.Builder(this)
-                    .setTitle("Analysis")
-                    .setMessage(result)
-                    .setPositiveButton("OK", null)
-                    .show();
-        }
-        else {
-            new AlertDialog.Builder(this)
-                    .setTitle("Analysis")
-                    .setMessage("No data")
-                    .setPositiveButton("OK", null)
-                    .show();
-        }
-    }
-
-    public void refreshGraphOnClick(View view) {
-        /*x=0;
-        graph.removeAllSeries();
-        series = new LineGraphSeries<>(new DataPoint[]{});
-        graph.addSeries(series);
-        x=0;*/
-    }
+//    public void showAnalysisOnClick(View v) {
+//        v.startAnimation(animButton);
+//    }
+//
+//    public void refreshGraphOnClick(View v) {
+//        v.startAnimation(animButton);
+//    }
 
     /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
