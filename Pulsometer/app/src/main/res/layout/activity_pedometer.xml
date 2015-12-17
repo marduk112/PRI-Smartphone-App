@@ -14,7 +14,8 @@
         android:id="@+id/pedometerText"
         android:layout_gravity="center_horizontal"
         android:textSize="40dp"
-        android:textColor="#ffffffff" />
+        android:textColor="#ffffffff"
+        android:gravity="center_horizontal" />
 
 
 </RelativeLayout>

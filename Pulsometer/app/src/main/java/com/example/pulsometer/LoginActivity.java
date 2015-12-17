@@ -14,6 +14,8 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -57,6 +59,67 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //button
+        final Animation animButton = AnimationUtils.loadAnimation(this, R.anim.anim_button);
+        animButton.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Intent intent = new Intent(context, RegisterActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        //button2
+        final Animation animButton2 = AnimationUtils.loadAnimation(this, R.anim.anim_button);
+        animButton2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Intent intent = new Intent(context, ExternalProvidersActivity.class);
+                //intent.putExtra("provider", "Google");
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        //button3
+        final Animation animButton3 = AnimationUtils.loadAnimation(this, R.anim.anim_button);
+        animButton3.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                attemptLogin();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.emailTextView);
 
@@ -76,8 +139,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         registerButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, RegisterActivity.class);
-                startActivity(intent);
+                v.startAnimation(animButton);
             }
         });
 
@@ -85,17 +147,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         loginViaExternalProviderButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ExternalProvidersActivity.class);
-                //intent.putExtra("provider", "Google");
-                startActivity(intent);
+                v.startAnimation(animButton2);
             }
         });
 
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View view) {
-                attemptLogin();
+            public void onClick(View v) {
+                v.startAnimation(animButton3);
             }
         });
 

@@ -6,7 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.example.pulsometer.Logic.AsyncTasks.LogoutTask;
@@ -38,43 +41,124 @@ public class CaseActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_case);
-        Button button = (Button)findViewById(R.id.AnalisysButton);
-        Intent intent = getIntent();
-        auth = (AuthenticationDataViewModel)intent.getSerializableExtra("authData");
-        button.setOnClickListener(new View.OnClickListener() {
+
+        //button
+        final Animation animButton = AnimationUtils.loadAnimation(this, R.anim.anim_button);
+        animButton.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onClick(View v) {
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
                 Intent intent = new Intent(context, AnalisysActivity.class);
                 intent.putExtra("authData", auth);
                 startActivity(intent);
             }
-        });
-        Button button2 = (Button)findViewById(R.id.history);
-        button2.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        //button2
+        final Animation animButton2 = AnimationUtils.loadAnimation(this, R.anim.anim_button);
+        animButton2.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
                 Intent intent = new Intent(context, com.example.pulsometer.HistoryActivity.class);
                 intent.putExtra("authData", auth);
                 startActivity(intent);
             }
-        });
-        Button button3 = (Button)findViewById(R.id.PedometerButton);
-        button3.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        //button3
+        final Animation animButton3 = AnimationUtils.loadAnimation(this, R.anim.anim_button);
+        animButton3.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
                 Intent intent = new Intent(context, PedometerActivity.class);
                 intent.putExtra("authData", auth);
                 startActivity(intent);
             }
-        });
-        Button button4 = (Button) findViewById(R.id.events);
-        button4.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        //button4
+        final Animation animButton4 = AnimationUtils.loadAnimation(this, R.anim.anim_button);
+        animButton4.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
                 Intent intent = new Intent(context, EventsActivity.class);
                 intent.putExtra("authData", auth);
                 startActivity(intent);
             }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
         });
+
+        Button button = (Button) findViewById(R.id.AnalisysButton);
+        Intent intent = getIntent();
+        auth = (AuthenticationDataViewModel) intent.getSerializableExtra("authData");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(animButton);
+            }
+        });
+
+        Button button2 = (Button)findViewById(R.id.history);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(animButton2);
+            }
+        });
+
+        Button button3 = (Button)findViewById(R.id.PedometerButton);
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(animButton3);
+            }
+        });
+
+        Button button4 = (Button) findViewById(R.id.events);
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(animButton4);
+            }
+        });
+
     }
 }

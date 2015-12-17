@@ -82,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:text="REGISTER"
                 android:id="@+id/register2Button"
+                android:background="@drawable/button"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
                 android:layout_alignParentBottom="true"
