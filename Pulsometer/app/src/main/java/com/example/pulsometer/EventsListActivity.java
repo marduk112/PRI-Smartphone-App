@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.activeandroid.query.Select;
 import com.example.pulsometer.Logic.AsyncTasks.CreateEventTask;
 import com.example.pulsometer.Logic.AsyncTasks.GetAllEventsTask;
 import com.example.pulsometer.Logic.AsyncTasks.JoinToEventTask;
 import com.example.pulsometer.Model.AuthenticationDataViewModel;
 import com.example.pulsometer.Model.EventViewModel;
+import com.example.pulsometer.Model.PulseSqlite;
 import com.example.pulsometer.R;
 
 import java.util.ArrayList;
@@ -59,8 +61,10 @@ public class EventsListActivity extends Activity implements AdapterView.OnItemCl
                 .setPositiveButton("Join to event", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        eventViewModel.save();
                         new JoinToEventTask(auth.access_token, eventViewModel.Id, mActivity).execute();
+                        boolean isSaved = new Select().from(EventViewModel.class).where("id = ?", eventViewModel.Id).exists();
+                        if (!isSaved)
+                            eventViewModel.save();
                     }
                 })
                 .setNegativeButton("Cancel", null)
