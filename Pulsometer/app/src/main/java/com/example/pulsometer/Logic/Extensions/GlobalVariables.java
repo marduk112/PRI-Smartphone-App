@@ -9,5 +9,6 @@ public final class GlobalVariables {
     public static ListenableArrayList<Integer> Pulses = new ListenableArrayList<>();
     public static final String BaseUrlForRest = "http://pulsometerrest.apphb.com/";
     public static String AccessToken;
+    public static long StepsNumber;
 }
 

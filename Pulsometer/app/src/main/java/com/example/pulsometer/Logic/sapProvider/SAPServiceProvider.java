@@ -33,7 +33,10 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
+import com.example.pulsometer.Model.PedometerSqlite;
 import com.samsung.android.sdk.SsdkUnsupportedException;
 import com.samsung.android.sdk.accessory.SA;
 import com.samsung.android.sdk.accessory.SAAgent;
@@ -45,6 +48,9 @@ import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.security.cert.X509Certificate;
@@ -225,11 +231,33 @@ public class SAPServiceProvider extends SAAgent {
             }
             try {
                 String response = new String(data, "UTF-8");
-                System.out.println("Response from watch " + response);
                 if (response.contains("H")) {
-                    System.out.println("Data " + response.replace("H ", ""));
                     GlobalVariables.Pulses.add(Integer.parseInt(response.replace("H ", "")));
-                    System.out.println("Pulse added");
+                } else if (response.contains("P")) {
+                    GlobalVariables.StepsNumber = (Long.parseLong(response.replace("P ", "")));
+                    Date dateNow = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    boolean exist = new Select()
+                            .from(PedometerSqlite.class)
+                            .where("Date = ?", dateFormat.format(dateNow))
+                            .exists();
+                    if (!exist) {
+                        PedometerSqlite pedometerSqlite = new PedometerSqlite();
+                        pedometerSqlite.Date = dateFormat.format(dateNow);
+                        pedometerSqlite.StepsNumber = GlobalVariables.StepsNumber;
+                        pedometerSqlite.save();
+                    } else {
+                        PedometerSqlite pedometerSqlite = new Select()
+                                .from(PedometerSqlite.class)
+                                .where("Date = ?", dateFormat.format(dateNow))
+                                .executeSingle();
+                        new Delete()
+                                .from(PedometerSqlite.class)
+                                .where("Date = ?", dateFormat.format(dateNow))
+                                .execute();
+                        pedometerSqlite.StepsNumber = GlobalVariables.StepsNumber;
+                        pedometerSqlite.save();
+                    }
                 }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
