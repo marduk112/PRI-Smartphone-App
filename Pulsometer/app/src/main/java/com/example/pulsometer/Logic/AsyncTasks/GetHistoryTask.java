@@ -12,6 +12,7 @@ import com.example.pulsometer.Logic.Interfaces.AdapterListener;
 import com.example.pulsometer.Logic.Interfaces.ListListener;
 import com.example.pulsometer.Logic.Interfaces.Listenable;
 import com.example.pulsometer.Model.DateDTO;
+import com.example.pulsometer.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -93,7 +94,7 @@ public class GetHistoryTask extends AsyncTask<Void, Void, HttpResponse> implemen
                 Collections.sort(history);
                 // Adapter: You need three parameters 'the context, id of the layout (it will be where the data is shown),
                 // and the array that contains the data
-                adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, history);
+                adapter = new ArrayAdapter<>(context, R.layout.date_row, history);
                 listView.setAdapter(adapter);
                 if (adapterListener != null)
                     adapterListener.setAdapter(adapter);

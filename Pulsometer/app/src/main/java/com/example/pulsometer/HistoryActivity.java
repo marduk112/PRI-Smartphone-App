@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Created by Szymon Wójcik on 2015-06-24.
  */
-public class HistoryActivity extends FragmentActivity implements AdapterView.OnItemClickListener {
+public class HistoryActivity extends FragmentActivity{
     private final HistoryActivity context = this;
     private static List<Date> history = new ArrayList<>();
     private static List<Date> historyClone = new ArrayList<>();
@@ -66,7 +66,19 @@ public class HistoryActivity extends FragmentActivity implements AdapterView.OnI
 
         setContentView(R.layout.activity_history);
         listView = (ListView) findViewById(R.id.historyListView);
-        listView.setOnItemClickListener(this);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Log.i("HistoryListView", "You clicked Item: " + id + " at position:" + position);
+                Intent intent = new Intent();
+                intent.setClass(context, AnalisysActivity.class);
+                intent.putExtra("authData", auth);
+                intent.putExtra("Measurement", history.get(position));
+                startActivity(intent);
+            }
+        });
+
+
         Bundle extras = getIntent().getExtras();
         auth = (AuthenticationDataViewModel)extras.get("authData");
         GetHistoryTask task = new GetHistoryTask(auth.access_token, temp, history, historyClone, adapter, listView, this);
@@ -79,16 +91,11 @@ public class HistoryActivity extends FragmentActivity implements AdapterView.OnI
         task.execute();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.i("HistoryListView", "You clicked Item: " + id + " at position:" + position);
-        Intent intent = new Intent();
-        intent.setClass(this, AnalisysActivity.class);
-        intent.putExtra("authData", auth);
-        intent.putExtra("Measurement", history.get(position));
-        startActivity(intent);
-        //finish();
-    }
+//    @Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//        //finish();
+//    }
 
     public void showDatePickerDialog(View view) {
         System.out.println("adapter is null " + (adapter == null));

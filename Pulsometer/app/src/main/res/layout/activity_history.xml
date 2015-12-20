@@ -8,14 +8,14 @@
     android:layout_centerVertical="true"
     android:orientation="horizontal"
     tools:context="com.example.pulsometer.HistoryActivity"
-    android:background="#ffffff">
+    android:background="@drawable/tlo">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView4" >
 
-        <LinearLayout
+        <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -32,8 +32,9 @@
             <ListView
                 android:layout_width="wrap_content"
                 android:layout_height="542dp"
-                android:id="@+id/historyListView" />
-        </LinearLayout>
+                android:layout_centerInParent="true"
+                android:id="@+id/historyListView"/>
+        </RelativeLayout>
     </ScrollView>
 
 </LinearLayout>

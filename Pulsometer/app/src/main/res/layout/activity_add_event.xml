@@ -1,81 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.pulsometer.AddEventActivity"
-    android:background="#ffffff">
+    android:background="@drawable/tlo">
 
-    <EditText
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/name_of_event"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="28dp"
-        android:hint="@string/name_of_event"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:editable="true"
-        android:enabled="true" />
+        android:id="@+id/scrollView5" >
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/steps_number"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:layout_below="@+id/name_of_event"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:hint="@string/steps_number"
-        android:editable="true"
-        android:enabled="true" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/start_date_event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/steps_number"
-        android:hint="@string/set_date"
-        android:onClick="showDatePickerDialog"/>
+            <EditText
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_of_event"
+                android:hint="@string/name_of_event"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:background="@android:color/white"
+                />
 
-    <Button
-        android:id="@+id/end_date_event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/start_date_event"
-        android:hint="@string/set_date"
-        android:onClick="showDatePickerDialog2"/>
+            <EditText
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/steps_number"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:layout_below="@+id/name_of_event"
+                android:hint="@string/steps_number"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:background="@android:color/white"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/event_description"
-        android:hint="@string/event_description"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/end_date_event"
-        android:layout_above="@+id/create_event"
-        android:layout_alignRight="@+id/create_event"
-        android:layout_alignEnd="@+id/create_event"
-        android:editable="true"
-        android:enabled="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/create_event"
-        android:id="@+id/create_event"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+            <Button
+                android:layout_marginTop="20dp"
+                android:id="@+id/start_date_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/start_date"
+                android:onClick="showDatePickerDialog"
+                android:layout_below="@+id/steps_number"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/button"/>
 
-</RelativeLayout>
+
+            <Button
+                android:layout_marginTop="20dp"
+                android:id="@+id/end_date_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/end_date"
+                android:onClick="showDatePickerDialog2"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/button"/>
+
+            <EditText
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="218dp"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/event_description"
+                android:hint="@string/event_description"
+                android:editable="true"
+                android:enabled="true"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:background="@android:color/white"/>
+
+            <Button
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_event"
+                android:id="@+id/create_event"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/button"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

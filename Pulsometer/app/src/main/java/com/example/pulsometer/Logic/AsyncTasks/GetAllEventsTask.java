@@ -10,6 +10,7 @@ import com.example.pulsometer.EventsListActivity;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.Model.DateDTO;
 import com.example.pulsometer.Model.EventViewModel;
+import com.example.pulsometer.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -79,7 +80,7 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, HttpResponse> {
                 for (EventViewModel eventViewModel : eventViewModelList) {
                     temp.add(eventViewModel.Name);
                 }
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, temp);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.date_row, temp);
                 listView.setAdapter(adapter);
                 System.out.println("OK");
             }
