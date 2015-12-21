@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by Szymon Wójcik on 16.11.2015.
  */
-@Table(name = "Events")
+@Table(name = "Events", id="_id")
 public class EventViewModel extends Model implements Serializable {
     @Column(name = "id")
     public int Id;

@@ -99,56 +99,67 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_register"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:windowSoftInputMode="adjustResize|stateVisible"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".LoginSuccessfullActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_login_suuccessfull"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".CaseActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_case"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".HistoryActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_history"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".LoginViaExternalProviderActivity"
             android:label="@string/title_activity_login_via_google"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ExternalProvidersActivity"
             android:label="@string/title_activity_login_via_external_provider"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".EventsActivity"
             android:label="@string/title_activity_events"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".AddEventActivity"
             android:label="@string/title_activity_add_event"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".EventsListActivity"
             android:label="@string/title_activity_events_list"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".AnalisysActivity" >
+        <activity android:name=".AnalisysActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PedometerActivity"
-            android:label="@string/title_activity_pedometer" >
+            android:label="@string/title_activity_pedometer"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
