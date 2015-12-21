@@ -29,4 +29,7 @@
     <string name="there_is_risk_of_periodic_arrhythmia">there is a risk of periodic arrhythmias</string>
     <string name="title_activity_pedometer">PedometerActivity</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="history_text">History</string>
+    <string name="event_text">Event</string>
+    <string name="event_add_text">Add event</string>
 </resources>

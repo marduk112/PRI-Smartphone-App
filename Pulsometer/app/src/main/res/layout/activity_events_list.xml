@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:id="@+id/scrollView4" >
 
-        <RelativeLayout
+        <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -28,13 +28,24 @@
                 android:id="@+id/button"
                 android:layout_gravity="center_horizontal"
                 android:onClick="showDatePickerDialog"/>-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/event_text"
+                android:id="@+id/EventText"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:textSize="40dp"
+                android:textColor="#ffffffff"
+                />
 
             <ListView
                 android:layout_width="wrap_content"
-                android:layout_height="542dp"
+                android:layout_below="@+id/EventText"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:id="@+id/eventsList"/>
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

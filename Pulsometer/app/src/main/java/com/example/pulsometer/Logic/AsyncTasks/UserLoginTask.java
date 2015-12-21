@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.example.pulsometer.CaseActivity;
 import com.example.pulsometer.Logic.Extensions.GlobalVariables;
 import com.example.pulsometer.LoginActivity;
 import com.example.pulsometer.LoginSuccessfullActivity;
@@ -102,7 +103,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, HttpResponse> {
                     IOUtils.copy(in, writer, "UTF-8");
                     Gson g = new Gson();
                     AuthenticationDataViewModel auth = g.fromJson(writer.toString(), AuthenticationDataViewModel.class);
-                    Intent intent = new Intent(mActivity, LoginSuccessfullActivity.class);
+                    Intent intent = new Intent(mActivity, CaseActivity.class);
                     intent.putExtra("authData", auth);
                     mActivity.startActivity(intent);
                     //mActivity.finish();

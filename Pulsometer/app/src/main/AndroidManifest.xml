@@ -161,6 +161,11 @@
             android:label="@string/title_activity_pedometer"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

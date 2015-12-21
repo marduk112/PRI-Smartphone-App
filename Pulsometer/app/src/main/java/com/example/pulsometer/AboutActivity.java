@@ -1,4 +1,4 @@
-package com.example.pulsometer.Model;
+package com.example.pulsometer;
 
 import android.app.Activity;
 import android.os.Bundle;
