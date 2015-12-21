@@ -63,19 +63,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp" />
 
-
-
-            <!--
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lie_detector"
-                android:background="@drawable/button"
-                android:id="@+id/button3"
-                android:layout_marginTop="20dp"
-                android:textColor="#ff000000" /> -->
-
-
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,6 +71,17 @@
                 android:id="@+id/events"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button"
+                android:text="About"
+                android:id="@+id/about"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"/>
+
+
         </LinearLayout>
     </ScrollView>
 

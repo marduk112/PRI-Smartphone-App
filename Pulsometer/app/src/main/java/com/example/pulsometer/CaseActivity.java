@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.example.pulsometer.Logic.AsyncTasks.LogoutTask;
+import com.example.pulsometer.Model.AboutActivity;
 import com.example.pulsometer.Model.AuthenticationDataViewModel;
 
 public class CaseActivity extends Activity {
@@ -126,6 +127,27 @@ public class CaseActivity extends Activity {
             }
         });
 
+        //button5
+        final Animation animButton5 = AnimationUtils.loadAnimation(this, R.anim.anim_button);
+        animButton5.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Intent intent = new Intent(context, AboutActivity.class);
+                intent.putExtra("authData", auth);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
         Button button = (Button) findViewById(R.id.AnalisysButton);
         Intent intent = getIntent();
         auth = (AuthenticationDataViewModel) intent.getSerializableExtra("authData");
@@ -157,6 +179,14 @@ public class CaseActivity extends Activity {
             @Override
             public void onClick(View v) {
                 v.startAnimation(animButton4);
+            }
+        });
+
+        Button button5 = (Button)findViewById(R.id.about);
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(animButton5);
             }
         });
 
