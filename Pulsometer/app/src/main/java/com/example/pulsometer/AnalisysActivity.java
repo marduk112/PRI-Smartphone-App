@@ -79,7 +79,7 @@ public class AnalisysActivity extends Activity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 if (!GlobalVariables.Pulses.getList().isEmpty()) {
-                    int age = Integer.parseInt(ageTextView.getText().toString());
+                    int age = Integer.parseInt(ageTextView.getText().toString().replace("Your Age: ", ""));
                     AnalysePulse analysePulse = new AnalysePulse(GlobalVariables.Pulses.getList(), age, getResources(), activity);
                     String result = analysePulse.analysePulse();
                     new AlertDialog.Builder(context)
