@@ -48,11 +48,14 @@ public class AnalysePulse {
             double londree = (206.3 - (0.711 * age));
             double oakland = (206.9 - (0.67 * age));
             double average = (tanaka + miller + londree + oakland) / 4;
-            stringBuilder.append("maximum allowable pulse (Tanaka formula) " + tanaka + "\n");
-            stringBuilder.append("maximum allowable pulse (Miller AT al formula) " + miller + "\n");
-            stringBuilder.append("maximum allowable pulse (Londree and Moeschburger formula) " + londree + "\n");
-            stringBuilder.append("maximum allowable pulse (from Oakland University formula) " + oakland + "\n");
-            stringBuilder.append("maximum allowable pulse (average) " + average + "\n");
+            java.text.DecimalFormat df=new java.text.DecimalFormat();
+            df.setMaximumFractionDigits(2);
+            df.setMinimumFractionDigits(0);
+            stringBuilder.append("maximum allowable pulse (Tanaka formula) " + df.format(tanaka) + "\n");
+            stringBuilder.append("maximum allowable pulse (Miller AT al formula) " + df.format(miller) + "\n");
+            stringBuilder.append("maximum allowable pulse (Londree and Moeschburger formula) " + df.format(londree) + "\n");
+            stringBuilder.append("maximum allowable pulse (from Oakland University formula) " + df.format(oakland) + "\n");
+            stringBuilder.append("maximum allowable pulse (average) " + df.format(average) + "\n");
         } else if (activity.equals("walk")) {
 
         } else if (activity.equals("run")) {

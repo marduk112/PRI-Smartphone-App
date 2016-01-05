@@ -73,8 +73,7 @@ public class GetMeasurementTask extends AsyncTask<Void, Void, HttpResponse> {
                 prob=0;
                 new AlertDialog.Builder(activity)
                         .setTitle("Error")
-                        .setMessage("Measurement error\n" + result.getStatusLine().getStatusCode()
-                                + "\n" + result.getStatusLine().getReasonPhrase())
+                        .setMessage("Measurement error\n")
                         .setPositiveButton("OK", null)
                         .show();
             } else {
@@ -92,6 +91,7 @@ public class GetMeasurementTask extends AsyncTask<Void, Void, HttpResponse> {
                         p.save();
                     }
                     System.out.println("OK");
+
                 } else {
                     new AlertDialog.Builder(activity)
                             .setTitle("Error")

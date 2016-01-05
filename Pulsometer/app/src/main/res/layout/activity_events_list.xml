@@ -37,7 +37,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_centerInParent="true"
-        android:id="@+id/eventsList"/>
+        android:id="@+id/eventsList"
+        android:dividerHeight="10sp"/>
 
 
 </LinearLayout>

@@ -32,4 +32,16 @@
     <string name="history_text">History</string>
     <string name="event_text">Event</string>
     <string name="event_add_text">Add event</string>
+
+    <string name="aboutTitle">About</string>
+    <string name="formulaTitle">Methods for calculating maximum allowable pulse </string>
+    <string name="aboutFormula">Formula Tanaka = 208 - (0.7 * age) \n
+           Miller AT al formula = 217 - (0.85 * age) \n
+           Londree and Moeschburger formula = 206.3 - (0.711 * age) \n
+           from Oakland University formula = 206.9 - (0.67 * age)\n</string>
+
+    <string name="aboutText">This app was created by three developers Jakub Przybysz, Szymon Wójcik and Szymon Rzepa. \n
+The aim of the project is to create applications for everyone, especially for active people and the sick.
+        On the basis of specific analyzes application will allow us to assess their health status or condition.
+        Please note that your application never We can not replace a doctor but only suggests the current state of health.</string>
 </resources>
